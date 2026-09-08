@@ -33,15 +33,32 @@ jobs:
           curl -sL -o opera-proxy "https://github.com/snawoot-proxies-forks/opera-proxy/releases/download/${VER}/opera-proxy.linux-amd64"
           chmod +x opera-proxy
 
-          # 3. 下载 Psiphon (赛风) 官方核心客户端
-          PSI_TAG=$(curl -sL https://api.github.com/repos/Psiphon-Labs/psiphon-tunnel-core/releases/latest | jq -r '.tag_name')
-          echo "Psiphon 最新版本: $PSI_TAG"
-          curl -sL -o psiphon.tar.gz "https://github.com/Psiphon-Labs/psiphon-tunnel-core/releases/download/${PSI_TAG}/psiphon-tunnel-core-linux-x86_64.tar.gz"
-          tar -xzf psiphon.tar.gz
-          
-          # 重命名并赋予可执行权限，方便脚本识别调用
-          mv psiphon-tunnel-core* psiphon-tunnel-core-x86_64 || true
-          chmod +x psiphon-tunnel-core-x86_64
+          # 3. 动态解析并自适应下载 Psiphon 官方 Linux 资产
+          echo "正在查询 Psiphon 最新 Release 资产..."
+          ASSET_URL=$(curl -sL https://api.github.com/repos/Psiphon-Labs/psiphon-tunnel-core/releases/latest \
+            | jq -r '.assets[] | select(.name | test("linux.*(x86_64|amd64)"; "i")) | .browser_download_url' | head -n 1)
+
+          if [ -n "$ASSET_URL" ] && [ "$ASSET_URL" != "null" ]; then
+            echo "下载 Psiphon 资产: $ASSET_URL"
+            curl -sL -o psiphon_asset "$ASSET_URL"
+            
+            # 智能判断文件类型：如果是 zip 则解压，如果是 tar.gz 则解包，否则直接作为二进制文件
+            FILE_TYPE=$(file psiphon_asset)
+            if echo "$FILE_TYPE" | grep -qi "gzip"; then
+              tar -xzf psiphon_asset
+            elif echo "$FILE_TYPE" | grep -qi "zip"; then
+              unzip -q -o psiphon_asset
+            else
+              mv psiphon_asset psiphon-tunnel-core-x86_64
+            fi
+            
+            # 递归查找解压出来的二进制并统一命名
+            find . -maxdepth 2 -type f -name "*psiphon*" -not -name "*.py" -not -name "*.tar.gz" -not -name "*.zip" -exec cp {} ./psiphon-tunnel-core-x86_64 \; || true
+            chmod +x psiphon-tunnel-core-x86_64 || true
+            echo "Psiphon 核心就绪"
+          else
+            echo "未查询到适配的预编译二进制，跳过 Psiphon 核心安装"
+          fi
 
       - name: 运行节点聚合脚本
         env:
