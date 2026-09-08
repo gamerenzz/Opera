@@ -3,13 +3,32 @@ allow-lan: false
 mode: rule
 log-level: info
 unified-delay: true
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+  - 223.5.5.5
+  - 119.29.29.29
+  nameserver:
+  - https://223.5.5.5/dns-query
+  - https://1.12.12.12/dns-query
+  nameserver-policy:
+    geosite:cn,private:
+    - https://223.5.5.5/dns-query
+    - https://1.12.12.12/dns-query
+    geosite:geolocation-!cn:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
 proxies:
 - name: Windscribe-美国西1
   type: http
   server: us-west-094.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: us-west-094.totallyacdn.com
   skip-cert-verify: false
@@ -17,8 +36,8 @@ proxies:
   type: http
   server: us-west-095.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: us-west-095.totallyacdn.com
   skip-cert-verify: false
@@ -26,8 +45,8 @@ proxies:
   type: http
   server: us-west-084.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: us-west-084.totallyacdn.com
   skip-cert-verify: false
@@ -35,8 +54,8 @@ proxies:
   type: http
   server: ca-038.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: ca-038.totallyacdn.com
   skip-cert-verify: false
@@ -44,8 +63,8 @@ proxies:
   type: http
   server: ca-059.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: ca-059.totallyacdn.com
   skip-cert-verify: false
@@ -53,8 +72,8 @@ proxies:
   type: http
   server: ca-058.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: ca-058.totallyacdn.com
   skip-cert-verify: false
@@ -62,8 +81,8 @@ proxies:
   type: http
   server: ca-067.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: ca-067.totallyacdn.com
   skip-cert-verify: false
@@ -71,8 +90,8 @@ proxies:
   type: http
   server: ca-065.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: ca-065.totallyacdn.com
   skip-cert-verify: false
@@ -80,8 +99,8 @@ proxies:
   type: http
   server: de-038.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: de-038.totallyacdn.com
   skip-cert-verify: false
@@ -89,8 +108,8 @@ proxies:
   type: http
   server: de-040.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: de-040.totallyacdn.com
   skip-cert-verify: false
@@ -98,8 +117,8 @@ proxies:
   type: http
   server: de-041.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: de-041.totallyacdn.com
   skip-cert-verify: false
@@ -107,8 +126,8 @@ proxies:
   type: http
   server: de-037.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: de-037.totallyacdn.com
   skip-cert-verify: false
@@ -116,8 +135,8 @@ proxies:
   type: http
   server: de-036.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: de-036.totallyacdn.com
   skip-cert-verify: false
@@ -125,8 +144,8 @@ proxies:
   type: http
   server: uk-049.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: uk-049.totallyacdn.com
   skip-cert-verify: false
@@ -134,8 +153,8 @@ proxies:
   type: http
   server: uk-050.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: uk-050.totallyacdn.com
   skip-cert-verify: false
@@ -143,8 +162,8 @@ proxies:
   type: http
   server: uk-048.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: uk-048.totallyacdn.com
   skip-cert-verify: false
@@ -152,8 +171,8 @@ proxies:
   type: http
   server: uk-040.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: uk-040.totallyacdn.com
   skip-cert-verify: false
@@ -161,8 +180,8 @@ proxies:
   type: http
   server: uk-029.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: uk-029.totallyacdn.com
   skip-cert-verify: false
@@ -170,8 +189,8 @@ proxies:
   type: http
   server: uk-039.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: uk-039.totallyacdn.com
   skip-cert-verify: false
@@ -179,8 +198,8 @@ proxies:
   type: http
   server: uk-028.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: uk-028.totallyacdn.com
   skip-cert-verify: false
@@ -188,8 +207,8 @@ proxies:
   type: http
   server: hk-016.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: hk-016.totallyacdn.com
   skip-cert-verify: false
@@ -197,71 +216,71 @@ proxies:
   type: http
   server: hk-014.totallyacdn.com
   port: 443
-  username: eqpjrror-qm497g2
-  password: dg9hevj8zc
+  username: cp7mlrqd-qjncy5b
+  password: uvxgw7nhte
   tls: true
   sni: hk-014.totallyacdn.com
   skip-cert-verify: false
 - name: Opera-亚洲1
   type: http
-  server: 77.111.245.17
+  server: 77.111.245.16
   port: 443
-  username: F9C3D361150113EA2194C61FB1B163457A7BB9A7
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJxakl5cldiSEQ4cERGeUUxLW5kQU5nMjNiUkdXNk9iQkd1U2FjWHNpU0dBIiwieSI6ImtDSHNEMnZuVE9icHBrRFVRanZCR1dxR1B6Y2ZSWVJFUVo3cm1xbU9neTgifX0.1mQGsDx8g3LNeqhhJCBNDQJKrXNL0tRK-Gma1axBe6qAQtRPOjpBcg.wq6FjfQ_80IzPBIH.MaQckyKgQ5XRoHYfROPLniZTXQZ9h60pIDzNC2YbvG0H64TDrKaxR3WLltnV1_VM6p-D8alPycLezhxv50t8bnFicuCDoeP1PBEISbLduIxVv8tbRqPxfWEMYAmgCH1pEAPx1kmqi_jMBNwpMphJVS8s2BvbMDjsONYWpnUI_y6_kPhHicL5CLOsHu_Y0AUpYnEbQLY3W7_DOa5RT06ru0Viwu-NYNota7_XD7IfschTmrW94cV49JpBhpLdHsRDdoLHk70JSEw3LkM1jVmqbhu8G9rJtL6WTFsGR_xqlPSQKh5yd4gCHXYbYZI1h7OCeDpo-XzH5-VYc8urmsjF6yaC-5ShgUJI_2SdHEMIV3p_alLEAni2rPH0Kr5gzf9Nw7wb-Cuyw_AKltnsCroH_Bw2Ngu1RG7AQ8or8PQTTi8I4iGzcYzIVzjk7Jwo8MdgKZqHuGjid-E.LQQ-BZGSrI5C_gNgfGiiYw
+  username: CBEC2F5B95159A159B6711D5C56311B435902F77
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ3VjFCbmYzRDJDZGZYVXNuc0ZOQ0NlX3A4bWc4MXhBaVI0Tmx1V1dxVXJ3IiwieSI6Im5sVDVMd0VvMWgtNkExSk9OTzVKV1FsNHh4Q2ZSWVU3bXNHUFc2b1JMTTgifX0.DOECl0lcyx4ySpZAIkK5vd5UD3u8YmMg5sNcCyMzYXCHLlOQxtvPtA.iBHeYh0jKcoeJrfr.in1vFx8I1Qfnbldnr9NtVDlqabwXXbjhDI93opL-YJTkC71D7PplSVmiMDpPtUH8gaYsla4ZhHYZzsLzcCmI0uPxNgW2M34e1lII9NN91s_iO8M19M4FUFbdA0pYhXGfLD3gbK7UZkqlxCPkLxrxsAl9fGBXyia4ocGfWKhoR0klqknTMC8cz2T5ATtFhB1ahJIVAInXTPNbVnEf8Gk-Wr6H7_g11x99qeCo-4en6dr6ouPbErYXSrr3_LMD2jXtpYvPnpV7ZIFhBKanKCvRlQZm9ALGDFi4s30ezKX40XoA-cxARL7Oe1Q1TCtA1YKlBa6blfzKlRqzGDVEwL5zvEzIjbWcJSoMsCg1WvWJ-6b_-va7pmoJvzCy7S7vCQIOOOS9fHhdAZMF1WxMaoWyhT3pXHGSyorIM3gk1zIT9CzatdGEjdeF36GrgVtOnPNWHHoqV1fo8cY.3KsQV5xFY3tX0B112Swqpw
   tls: true
   sni: as0.sec-tunnel.com
   skip-cert-verify: false
 - name: Opera-亚洲2
   type: http
-  server: 77.111.245.14
+  server: 77.111.245.12
   port: 443
-  username: F9C3D361150113EA2194C61FB1B163457A7BB9A7
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJxakl5cldiSEQ4cERGeUUxLW5kQU5nMjNiUkdXNk9iQkd1U2FjWHNpU0dBIiwieSI6ImtDSHNEMnZuVE9icHBrRFVRanZCR1dxR1B6Y2ZSWVJFUVo3cm1xbU9neTgifX0.1mQGsDx8g3LNeqhhJCBNDQJKrXNL0tRK-Gma1axBe6qAQtRPOjpBcg.wq6FjfQ_80IzPBIH.MaQckyKgQ5XRoHYfROPLniZTXQZ9h60pIDzNC2YbvG0H64TDrKaxR3WLltnV1_VM6p-D8alPycLezhxv50t8bnFicuCDoeP1PBEISbLduIxVv8tbRqPxfWEMYAmgCH1pEAPx1kmqi_jMBNwpMphJVS8s2BvbMDjsONYWpnUI_y6_kPhHicL5CLOsHu_Y0AUpYnEbQLY3W7_DOa5RT06ru0Viwu-NYNota7_XD7IfschTmrW94cV49JpBhpLdHsRDdoLHk70JSEw3LkM1jVmqbhu8G9rJtL6WTFsGR_xqlPSQKh5yd4gCHXYbYZI1h7OCeDpo-XzH5-VYc8urmsjF6yaC-5ShgUJI_2SdHEMIV3p_alLEAni2rPH0Kr5gzf9Nw7wb-Cuyw_AKltnsCroH_Bw2Ngu1RG7AQ8or8PQTTi8I4iGzcYzIVzjk7Jwo8MdgKZqHuGjid-E.LQQ-BZGSrI5C_gNgfGiiYw
+  username: CBEC2F5B95159A159B6711D5C56311B435902F77
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ3VjFCbmYzRDJDZGZYVXNuc0ZOQ0NlX3A4bWc4MXhBaVI0Tmx1V1dxVXJ3IiwieSI6Im5sVDVMd0VvMWgtNkExSk9OTzVKV1FsNHh4Q2ZSWVU3bXNHUFc2b1JMTTgifX0.DOECl0lcyx4ySpZAIkK5vd5UD3u8YmMg5sNcCyMzYXCHLlOQxtvPtA.iBHeYh0jKcoeJrfr.in1vFx8I1Qfnbldnr9NtVDlqabwXXbjhDI93opL-YJTkC71D7PplSVmiMDpPtUH8gaYsla4ZhHYZzsLzcCmI0uPxNgW2M34e1lII9NN91s_iO8M19M4FUFbdA0pYhXGfLD3gbK7UZkqlxCPkLxrxsAl9fGBXyia4ocGfWKhoR0klqknTMC8cz2T5ATtFhB1ahJIVAInXTPNbVnEf8Gk-Wr6H7_g11x99qeCo-4en6dr6ouPbErYXSrr3_LMD2jXtpYvPnpV7ZIFhBKanKCvRlQZm9ALGDFi4s30ezKX40XoA-cxARL7Oe1Q1TCtA1YKlBa6blfzKlRqzGDVEwL5zvEzIjbWcJSoMsCg1WvWJ-6b_-va7pmoJvzCy7S7vCQIOOOS9fHhdAZMF1WxMaoWyhT3pXHGSyorIM3gk1zIT9CzatdGEjdeF36GrgVtOnPNWHHoqV1fo8cY.3KsQV5xFY3tX0B112Swqpw
   tls: true
   sni: as1.sec-tunnel.com
   skip-cert-verify: false
 - name: Opera-欧洲1
   type: http
-  server: 77.111.247.36
+  server: 77.111.247.33
   port: 443
-  username: 5E5C98287357EA68B5EE41A1F0B7CA7EB16CD093
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJZMlFxNms1WmxTZUdZZnhxT3NSOEpXM2xGV3I1bmV1Y21Da29EeElkMVkwIiwieSI6IkNmbU9YV3NiTXZOMzY4Zy1qUHljTzl3YkZRRUNfWnVJVzdNZzJRbWYzclkifX0.8XvLjI_3UvYqZ-l7zB9xAxf_-D2p-npWzfAFfgUhVZpTw1IqkRz0kQ.N9aaW1v3iRtvzwg0.QcjnShXOnIq2BIyOlSqw1tgC2urb8WDhnIf4J_a4bf4G3dy1Zltl2ftfar4OrI5jHOv3Y9o69DYVkZw4NiLOVcdAWdXUZ5Yeii5ZVtOoWSFuagaFQn_zY0VlQe3LxHfCgTtr92K4MEdU9ultttZUUrk7alGWxSHM4tDhYDlb9bRFg5sL13HZ9gx5arddIhnoeqRtyD_dODShIDEypVeuPZsMcLHzlyzwjaJmahUVJJAawZ_nZ60PasNqvm3gvdh4yeC7pephnwf4boI6qaY1_E_synEEzIV4IPb9dmvBVx_OPYaH59i3kisnsozHfN_Jz7LwehcVf8K0VVxv0pKXCnmGTz7Np5OoPfnO-MN0E4W9XKcJmeC-NuaMNoopxBdjUy-hUQIhjSXBZwofwjzcnD6a3ZA_H_Ck5kIG1kzlcqKXtQZ_DImqr84MJJRHAuGxO6UQuYRlR_E.akrY9LVJi4lWwoRpCpCjdQ
+  username: 9F3076786A35F6B4AC7B9A0E153E6B65F83EB07C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJscVJFNDJFMTZPT0tDNVBmMDhKNS02X3JNdnlkWlJBa1djRU45aXh1aXRvIiwieSI6IjAza01XOXlDSFptUFJ5MHhXaXpkMlBuTzVhM0lJbXQ2SUpraU1GQmJTclUifX0.INt-LDkTOdplaTCjp9Mdk0mO68gVpsgmxy0MJg3oMmDiXUD_Gx0cZA.YLYQLAtGmGJYuFso.SIAtu2du2pBMWD_AIZ5Ois2r7JnKW2FVpPqM2BFqs2dYGdClZb0Kc4HxWCRD4tkScy2dt-m9DcO_-E8RQen2llJnz5s1rj492qRNue-zQb5G0UcZEGttTlehCBlsyFUKPel2Kpb5dvH26qvKvZJvN_UolGrcFnOcqJOqunjFgCrd1vIWkBA2ObZ-XE9cQgQdPoJH5C5oeWrVl0u0d_dqsYVu-h9NBYwliJesmUAeUkWR-F0_HSmzcpKZ9DzuQ5x-q5CtF3k4IFryiBFltSU7HzYDZY-7VkXYRJb5vg5Qc4kxz4_rz_Vf3IOBZXTyK3iv9gEK69ePyatP6Ortnd8ffP7hm14tC8CLd0qDMDivEtf7YdfC25rlM8WYzORlACsKhVpzuTXe7iiHWdP9lzHYmVrb5U7H0XeU26W5mXe6vXDaHnDNsBV-xHZc34BLfusm6Y3iITxJtI8.kdkFAxCJoiQHSxu750DA2Q
   tls: true
   sni: eu0.sec-tunnel.com
   skip-cert-verify: false
 - name: Opera-欧洲2
   type: http
-  server: 77.111.247.79
+  server: 77.111.247.23
   port: 443
-  username: 5E5C98287357EA68B5EE41A1F0B7CA7EB16CD093
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJZMlFxNms1WmxTZUdZZnhxT3NSOEpXM2xGV3I1bmV1Y21Da29EeElkMVkwIiwieSI6IkNmbU9YV3NiTXZOMzY4Zy1qUHljTzl3YkZRRUNfWnVJVzdNZzJRbWYzclkifX0.8XvLjI_3UvYqZ-l7zB9xAxf_-D2p-npWzfAFfgUhVZpTw1IqkRz0kQ.N9aaW1v3iRtvzwg0.QcjnShXOnIq2BIyOlSqw1tgC2urb8WDhnIf4J_a4bf4G3dy1Zltl2ftfar4OrI5jHOv3Y9o69DYVkZw4NiLOVcdAWdXUZ5Yeii5ZVtOoWSFuagaFQn_zY0VlQe3LxHfCgTtr92K4MEdU9ultttZUUrk7alGWxSHM4tDhYDlb9bRFg5sL13HZ9gx5arddIhnoeqRtyD_dODShIDEypVeuPZsMcLHzlyzwjaJmahUVJJAawZ_nZ60PasNqvm3gvdh4yeC7pephnwf4boI6qaY1_E_synEEzIV4IPb9dmvBVx_OPYaH59i3kisnsozHfN_Jz7LwehcVf8K0VVxv0pKXCnmGTz7Np5OoPfnO-MN0E4W9XKcJmeC-NuaMNoopxBdjUy-hUQIhjSXBZwofwjzcnD6a3ZA_H_Ck5kIG1kzlcqKXtQZ_DImqr84MJJRHAuGxO6UQuYRlR_E.akrY9LVJi4lWwoRpCpCjdQ
+  username: 9F3076786A35F6B4AC7B9A0E153E6B65F83EB07C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJscVJFNDJFMTZPT0tDNVBmMDhKNS02X3JNdnlkWlJBa1djRU45aXh1aXRvIiwieSI6IjAza01XOXlDSFptUFJ5MHhXaXpkMlBuTzVhM0lJbXQ2SUpraU1GQmJTclUifX0.INt-LDkTOdplaTCjp9Mdk0mO68gVpsgmxy0MJg3oMmDiXUD_Gx0cZA.YLYQLAtGmGJYuFso.SIAtu2du2pBMWD_AIZ5Ois2r7JnKW2FVpPqM2BFqs2dYGdClZb0Kc4HxWCRD4tkScy2dt-m9DcO_-E8RQen2llJnz5s1rj492qRNue-zQb5G0UcZEGttTlehCBlsyFUKPel2Kpb5dvH26qvKvZJvN_UolGrcFnOcqJOqunjFgCrd1vIWkBA2ObZ-XE9cQgQdPoJH5C5oeWrVl0u0d_dqsYVu-h9NBYwliJesmUAeUkWR-F0_HSmzcpKZ9DzuQ5x-q5CtF3k4IFryiBFltSU7HzYDZY-7VkXYRJb5vg5Qc4kxz4_rz_Vf3IOBZXTyK3iv9gEK69ePyatP6Ortnd8ffP7hm14tC8CLd0qDMDivEtf7YdfC25rlM8WYzORlACsKhVpzuTXe7iiHWdP9lzHYmVrb5U7H0XeU26W5mXe6vXDaHnDNsBV-xHZc34BLfusm6Y3iITxJtI8.kdkFAxCJoiQHSxu750DA2Q
   tls: true
   sni: eu1.sec-tunnel.com
   skip-cert-verify: false
 - name: Opera-欧洲3
   type: http
-  server: 77.111.247.84
+  server: 77.111.247.26
   port: 443
-  username: 5E5C98287357EA68B5EE41A1F0B7CA7EB16CD093
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJZMlFxNms1WmxTZUdZZnhxT3NSOEpXM2xGV3I1bmV1Y21Da29EeElkMVkwIiwieSI6IkNmbU9YV3NiTXZOMzY4Zy1qUHljTzl3YkZRRUNfWnVJVzdNZzJRbWYzclkifX0.8XvLjI_3UvYqZ-l7zB9xAxf_-D2p-npWzfAFfgUhVZpTw1IqkRz0kQ.N9aaW1v3iRtvzwg0.QcjnShXOnIq2BIyOlSqw1tgC2urb8WDhnIf4J_a4bf4G3dy1Zltl2ftfar4OrI5jHOv3Y9o69DYVkZw4NiLOVcdAWdXUZ5Yeii5ZVtOoWSFuagaFQn_zY0VlQe3LxHfCgTtr92K4MEdU9ultttZUUrk7alGWxSHM4tDhYDlb9bRFg5sL13HZ9gx5arddIhnoeqRtyD_dODShIDEypVeuPZsMcLHzlyzwjaJmahUVJJAawZ_nZ60PasNqvm3gvdh4yeC7pephnwf4boI6qaY1_E_synEEzIV4IPb9dmvBVx_OPYaH59i3kisnsozHfN_Jz7LwehcVf8K0VVxv0pKXCnmGTz7Np5OoPfnO-MN0E4W9XKcJmeC-NuaMNoopxBdjUy-hUQIhjSXBZwofwjzcnD6a3ZA_H_Ck5kIG1kzlcqKXtQZ_DImqr84MJJRHAuGxO6UQuYRlR_E.akrY9LVJi4lWwoRpCpCjdQ
+  username: 9F3076786A35F6B4AC7B9A0E153E6B65F83EB07C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJscVJFNDJFMTZPT0tDNVBmMDhKNS02X3JNdnlkWlJBa1djRU45aXh1aXRvIiwieSI6IjAza01XOXlDSFptUFJ5MHhXaXpkMlBuTzVhM0lJbXQ2SUpraU1GQmJTclUifX0.INt-LDkTOdplaTCjp9Mdk0mO68gVpsgmxy0MJg3oMmDiXUD_Gx0cZA.YLYQLAtGmGJYuFso.SIAtu2du2pBMWD_AIZ5Ois2r7JnKW2FVpPqM2BFqs2dYGdClZb0Kc4HxWCRD4tkScy2dt-m9DcO_-E8RQen2llJnz5s1rj492qRNue-zQb5G0UcZEGttTlehCBlsyFUKPel2Kpb5dvH26qvKvZJvN_UolGrcFnOcqJOqunjFgCrd1vIWkBA2ObZ-XE9cQgQdPoJH5C5oeWrVl0u0d_dqsYVu-h9NBYwliJesmUAeUkWR-F0_HSmzcpKZ9DzuQ5x-q5CtF3k4IFryiBFltSU7HzYDZY-7VkXYRJb5vg5Qc4kxz4_rz_Vf3IOBZXTyK3iv9gEK69ePyatP6Ortnd8ffP7hm14tC8CLd0qDMDivEtf7YdfC25rlM8WYzORlACsKhVpzuTXe7iiHWdP9lzHYmVrb5U7H0XeU26W5mXe6vXDaHnDNsBV-xHZc34BLfusm6Y3iITxJtI8.kdkFAxCJoiQHSxu750DA2Q
   tls: true
   sni: eu2.sec-tunnel.com
   skip-cert-verify: false
 - name: Opera-欧洲4
   type: http
-  server: 77.111.247.37
+  server: 77.111.247.35
   port: 443
-  username: 5E5C98287357EA68B5EE41A1F0B7CA7EB16CD093
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJZMlFxNms1WmxTZUdZZnhxT3NSOEpXM2xGV3I1bmV1Y21Da29EeElkMVkwIiwieSI6IkNmbU9YV3NiTXZOMzY4Zy1qUHljTzl3YkZRRUNfWnVJVzdNZzJRbWYzclkifX0.8XvLjI_3UvYqZ-l7zB9xAxf_-D2p-npWzfAFfgUhVZpTw1IqkRz0kQ.N9aaW1v3iRtvzwg0.QcjnShXOnIq2BIyOlSqw1tgC2urb8WDhnIf4J_a4bf4G3dy1Zltl2ftfar4OrI5jHOv3Y9o69DYVkZw4NiLOVcdAWdXUZ5Yeii5ZVtOoWSFuagaFQn_zY0VlQe3LxHfCgTtr92K4MEdU9ultttZUUrk7alGWxSHM4tDhYDlb9bRFg5sL13HZ9gx5arddIhnoeqRtyD_dODShIDEypVeuPZsMcLHzlyzwjaJmahUVJJAawZ_nZ60PasNqvm3gvdh4yeC7pephnwf4boI6qaY1_E_synEEzIV4IPb9dmvBVx_OPYaH59i3kisnsozHfN_Jz7LwehcVf8K0VVxv0pKXCnmGTz7Np5OoPfnO-MN0E4W9XKcJmeC-NuaMNoopxBdjUy-hUQIhjSXBZwofwjzcnD6a3ZA_H_Ck5kIG1kzlcqKXtQZ_DImqr84MJJRHAuGxO6UQuYRlR_E.akrY9LVJi4lWwoRpCpCjdQ
+  username: 9F3076786A35F6B4AC7B9A0E153E6B65F83EB07C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJscVJFNDJFMTZPT0tDNVBmMDhKNS02X3JNdnlkWlJBa1djRU45aXh1aXRvIiwieSI6IjAza01XOXlDSFptUFJ5MHhXaXpkMlBuTzVhM0lJbXQ2SUpraU1GQmJTclUifX0.INt-LDkTOdplaTCjp9Mdk0mO68gVpsgmxy0MJg3oMmDiXUD_Gx0cZA.YLYQLAtGmGJYuFso.SIAtu2du2pBMWD_AIZ5Ois2r7JnKW2FVpPqM2BFqs2dYGdClZb0Kc4HxWCRD4tkScy2dt-m9DcO_-E8RQen2llJnz5s1rj492qRNue-zQb5G0UcZEGttTlehCBlsyFUKPel2Kpb5dvH26qvKvZJvN_UolGrcFnOcqJOqunjFgCrd1vIWkBA2ObZ-XE9cQgQdPoJH5C5oeWrVl0u0d_dqsYVu-h9NBYwliJesmUAeUkWR-F0_HSmzcpKZ9DzuQ5x-q5CtF3k4IFryiBFltSU7HzYDZY-7VkXYRJb5vg5Qc4kxz4_rz_Vf3IOBZXTyK3iv9gEK69ePyatP6Ortnd8ffP7hm14tC8CLd0qDMDivEtf7YdfC25rlM8WYzORlACsKhVpzuTXe7iiHWdP9lzHYmVrb5U7H0XeU26W5mXe6vXDaHnDNsBV-xHZc34BLfusm6Y3iITxJtI8.kdkFAxCJoiQHSxu750DA2Q
   tls: true
   sni: eu3.sec-tunnel.com
   skip-cert-verify: false
 - name: Opera-美洲1
   type: http
-  server: 77.111.246.27
+  server: 77.111.246.59
   port: 443
-  username: 36E94A93408B980E5B30B57268C816E42F4AB854
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ4R3ZwWWVldlNlMWNfTVcwSmR2WVE4ckpqeG5zcnBmbmVnWUI3TEM5aERnIiwieSI6ImpvX2tNejVZM2VENzdKb09kbUdraVdnTklGV2dFT1ZGVnF4S2QxWEdKVk0ifX0.qMf5nycJA6z-HGENjP65GYpI7xoC93KbyLMpazLQOaVdXF8kiZB7kQ.JoFQawiZh1afIOw-.fWhUrn7aUd19R2uUwYNlGCRawFTEVbBTHhnw2TsRZ0XJVHC7LYMRDCiE3c2Sr7cod4vbUVgWshg8tX1Q4hKgRdiUKLhrGhLYNsj991JttYT4kcBnWLdqkYf0oTayBihydz5VIQl_n7gcbIYT9r52zTnvt2DHBkXSfAMPROUasrV7-U_CMJ24Dqnil8306SWzUq-Ef9IuCcIQECjanloXEXB-1b-X_zpPQ5VZ72EPnnGVs5gQ0Nvo178erLBDhseEUG0fwexV-R8tVe_wjxLcfwcKrUkL-lQ35OkyJ75wFW-auLaf6TaigThxmHGr1brxy9FdkIFQKpuyQhKVZE7rxBHfZZbTlPJdk3o-KkGjjjJwYp-7QYgQbOtsU3tTGnSXEMlRm3ytF4DCaV2AZjeSGx7WEeFGprlk4ErXzSvXQgHc45OYnlLQ2k0C6OO7qrdGfk21F3chqdw.uRKPfp24zjce9iTpXSXD6Q
+  username: 0FB3154E9EAB70161BE4A173A620C7FC2E12818B
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJJSm12Z25FSzIxdVFxWnNjbnVyeERCdExXeHd3Z2N6U2NaZi1xeC1oS1YwIiwieSI6Ijg3SUM1TUhQbHVXdlpfYUxqNnptQ2tONGtPNDVnTlFQNHhZRXlDQnR3WDAifX0.N4DTuCQOlMVGktqgYb4V0-VIOo5Cxl_f0BPRet3HY4fxIuslkNHFQg.jTY4zhfJq5_WCEnY.7DsSXpL1CoICP1OnrbGKMtg7IWa0ORJ2OdrXWnhB_KzVNsnetX1zydyYf3DDG0z3BGdgVPyhgAgVv1ffL029GotQmL1ikqONhjRLAVm8XTuU74m2FNcF0fROCE9R8sFAhtcditsDymk-T0kh3Rx7T6mCnLhAt2LSs3vp0URRXSyMPBBsM7VmXFhNV4c0nlnRa7HsU7GRcX8QPwwNp7Q0GrZ5w4SCe115NSe-5ByuGcJdRnazJccssY1oQZX-q2KkFTyybE_kxugGPFjynFNtKYI9KJbCkPK34YY4b87_QD_3-8jKPLgDo1yaEyZe9knvJNHckxjL04pzNc_mIvbWPOYJnbJpZXAC3CNeLMR-FgwY97EdtgRMTHfwkqFBHway8yy4Cu97QSyi-6dT0tyAcOv6BtgYG0WzfmMwbqdYfOOCuXT41MHrUYmvm9W4HTcyWkXUgRycDfk.GOE_EEnP_3NXiiTnwd2BQg
   tls: true
   sni: am0.sec-tunnel.com
   skip-cert-verify: false
@@ -269,8 +288,8 @@ proxies:
   type: http
   server: 77.111.246.40
   port: 443
-  username: 36E94A93408B980E5B30B57268C816E42F4AB854
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ4R3ZwWWVldlNlMWNfTVcwSmR2WVE4ckpqeG5zcnBmbmVnWUI3TEM5aERnIiwieSI6ImpvX2tNejVZM2VENzdKb09kbUdraVdnTklGV2dFT1ZGVnF4S2QxWEdKVk0ifX0.qMf5nycJA6z-HGENjP65GYpI7xoC93KbyLMpazLQOaVdXF8kiZB7kQ.JoFQawiZh1afIOw-.fWhUrn7aUd19R2uUwYNlGCRawFTEVbBTHhnw2TsRZ0XJVHC7LYMRDCiE3c2Sr7cod4vbUVgWshg8tX1Q4hKgRdiUKLhrGhLYNsj991JttYT4kcBnWLdqkYf0oTayBihydz5VIQl_n7gcbIYT9r52zTnvt2DHBkXSfAMPROUasrV7-U_CMJ24Dqnil8306SWzUq-Ef9IuCcIQECjanloXEXB-1b-X_zpPQ5VZ72EPnnGVs5gQ0Nvo178erLBDhseEUG0fwexV-R8tVe_wjxLcfwcKrUkL-lQ35OkyJ75wFW-auLaf6TaigThxmHGr1brxy9FdkIFQKpuyQhKVZE7rxBHfZZbTlPJdk3o-KkGjjjJwYp-7QYgQbOtsU3tTGnSXEMlRm3ytF4DCaV2AZjeSGx7WEeFGprlk4ErXzSvXQgHc45OYnlLQ2k0C6OO7qrdGfk21F3chqdw.uRKPfp24zjce9iTpXSXD6Q
+  username: 0FB3154E9EAB70161BE4A173A620C7FC2E12818B
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJJSm12Z25FSzIxdVFxWnNjbnVyeERCdExXeHd3Z2N6U2NaZi1xeC1oS1YwIiwieSI6Ijg3SUM1TUhQbHVXdlpfYUxqNnptQ2tONGtPNDVnTlFQNHhZRXlDQnR3WDAifX0.N4DTuCQOlMVGktqgYb4V0-VIOo5Cxl_f0BPRet3HY4fxIuslkNHFQg.jTY4zhfJq5_WCEnY.7DsSXpL1CoICP1OnrbGKMtg7IWa0ORJ2OdrXWnhB_KzVNsnetX1zydyYf3DDG0z3BGdgVPyhgAgVv1ffL029GotQmL1ikqONhjRLAVm8XTuU74m2FNcF0fROCE9R8sFAhtcditsDymk-T0kh3Rx7T6mCnLhAt2LSs3vp0URRXSyMPBBsM7VmXFhNV4c0nlnRa7HsU7GRcX8QPwwNp7Q0GrZ5w4SCe115NSe-5ByuGcJdRnazJccssY1oQZX-q2KkFTyybE_kxugGPFjynFNtKYI9KJbCkPK34YY4b87_QD_3-8jKPLgDo1yaEyZe9knvJNHckxjL04pzNc_mIvbWPOYJnbJpZXAC3CNeLMR-FgwY97EdtgRMTHfwkqFBHway8yy4Cu97QSyi-6dT0tyAcOv6BtgYG0WzfmMwbqdYfOOCuXT41MHrUYmvm9W4HTcyWkXUgRycDfk.GOE_EEnP_3NXiiTnwd2BQg
   tls: true
   sni: am1.sec-tunnel.com
   skip-cert-verify: false
@@ -278,66 +297,76 @@ proxies:
   type: http
   server: 77.111.246.64
   port: 443
-  username: 36E94A93408B980E5B30B57268C816E42F4AB854
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ4R3ZwWWVldlNlMWNfTVcwSmR2WVE4ckpqeG5zcnBmbmVnWUI3TEM5aERnIiwieSI6ImpvX2tNejVZM2VENzdKb09kbUdraVdnTklGV2dFT1ZGVnF4S2QxWEdKVk0ifX0.qMf5nycJA6z-HGENjP65GYpI7xoC93KbyLMpazLQOaVdXF8kiZB7kQ.JoFQawiZh1afIOw-.fWhUrn7aUd19R2uUwYNlGCRawFTEVbBTHhnw2TsRZ0XJVHC7LYMRDCiE3c2Sr7cod4vbUVgWshg8tX1Q4hKgRdiUKLhrGhLYNsj991JttYT4kcBnWLdqkYf0oTayBihydz5VIQl_n7gcbIYT9r52zTnvt2DHBkXSfAMPROUasrV7-U_CMJ24Dqnil8306SWzUq-Ef9IuCcIQECjanloXEXB-1b-X_zpPQ5VZ72EPnnGVs5gQ0Nvo178erLBDhseEUG0fwexV-R8tVe_wjxLcfwcKrUkL-lQ35OkyJ75wFW-auLaf6TaigThxmHGr1brxy9FdkIFQKpuyQhKVZE7rxBHfZZbTlPJdk3o-KkGjjjJwYp-7QYgQbOtsU3tTGnSXEMlRm3ytF4DCaV2AZjeSGx7WEeFGprlk4ErXzSvXQgHc45OYnlLQ2k0C6OO7qrdGfk21F3chqdw.uRKPfp24zjce9iTpXSXD6Q
+  username: 0FB3154E9EAB70161BE4A173A620C7FC2E12818B
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJJSm12Z25FSzIxdVFxWnNjbnVyeERCdExXeHd3Z2N6U2NaZi1xeC1oS1YwIiwieSI6Ijg3SUM1TUhQbHVXdlpfYUxqNnptQ2tONGtPNDVnTlFQNHhZRXlDQnR3WDAifX0.N4DTuCQOlMVGktqgYb4V0-VIOo5Cxl_f0BPRet3HY4fxIuslkNHFQg.jTY4zhfJq5_WCEnY.7DsSXpL1CoICP1OnrbGKMtg7IWa0ORJ2OdrXWnhB_KzVNsnetX1zydyYf3DDG0z3BGdgVPyhgAgVv1ffL029GotQmL1ikqONhjRLAVm8XTuU74m2FNcF0fROCE9R8sFAhtcditsDymk-T0kh3Rx7T6mCnLhAt2LSs3vp0URRXSyMPBBsM7VmXFhNV4c0nlnRa7HsU7GRcX8QPwwNp7Q0GrZ5w4SCe115NSe-5ByuGcJdRnazJccssY1oQZX-q2KkFTyybE_kxugGPFjynFNtKYI9KJbCkPK34YY4b87_QD_3-8jKPLgDo1yaEyZe9knvJNHckxjL04pzNc_mIvbWPOYJnbJpZXAC3CNeLMR-FgwY97EdtgRMTHfwkqFBHway8yy4Cu97QSyi-6dT0tyAcOv6BtgYG0WzfmMwbqdYfOOCuXT41MHrUYmvm9W4HTcyWkXUgRycDfk.GOE_EEnP_3NXiiTnwd2BQg
   tls: true
   sni: am2.sec-tunnel.com
   skip-cert-verify: false
 - name: Opera-美洲4
   type: http
-  server: 77.111.246.63
+  server: 77.111.246.60
   port: 443
-  username: 36E94A93408B980E5B30B57268C816E42F4AB854
-  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ4R3ZwWWVldlNlMWNfTVcwSmR2WVE4ckpqeG5zcnBmbmVnWUI3TEM5aERnIiwieSI6ImpvX2tNejVZM2VENzdKb09kbUdraVdnTklGV2dFT1ZGVnF4S2QxWEdKVk0ifX0.qMf5nycJA6z-HGENjP65GYpI7xoC93KbyLMpazLQOaVdXF8kiZB7kQ.JoFQawiZh1afIOw-.fWhUrn7aUd19R2uUwYNlGCRawFTEVbBTHhnw2TsRZ0XJVHC7LYMRDCiE3c2Sr7cod4vbUVgWshg8tX1Q4hKgRdiUKLhrGhLYNsj991JttYT4kcBnWLdqkYf0oTayBihydz5VIQl_n7gcbIYT9r52zTnvt2DHBkXSfAMPROUasrV7-U_CMJ24Dqnil8306SWzUq-Ef9IuCcIQECjanloXEXB-1b-X_zpPQ5VZ72EPnnGVs5gQ0Nvo178erLBDhseEUG0fwexV-R8tVe_wjxLcfwcKrUkL-lQ35OkyJ75wFW-auLaf6TaigThxmHGr1brxy9FdkIFQKpuyQhKVZE7rxBHfZZbTlPJdk3o-KkGjjjJwYp-7QYgQbOtsU3tTGnSXEMlRm3ytF4DCaV2AZjeSGx7WEeFGprlk4ErXzSvXQgHc45OYnlLQ2k0C6OO7qrdGfk21F3chqdw.uRKPfp24zjce9iTpXSXD6Q
+  username: 0FB3154E9EAB70161BE4A173A620C7FC2E12818B
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJJSm12Z25FSzIxdVFxWnNjbnVyeERCdExXeHd3Z2N6U2NaZi1xeC1oS1YwIiwieSI6Ijg3SUM1TUhQbHVXdlpfYUxqNnptQ2tONGtPNDVnTlFQNHhZRXlDQnR3WDAifX0.N4DTuCQOlMVGktqgYb4V0-VIOo5Cxl_f0BPRet3HY4fxIuslkNHFQg.jTY4zhfJq5_WCEnY.7DsSXpL1CoICP1OnrbGKMtg7IWa0ORJ2OdrXWnhB_KzVNsnetX1zydyYf3DDG0z3BGdgVPyhgAgVv1ffL029GotQmL1ikqONhjRLAVm8XTuU74m2FNcF0fROCE9R8sFAhtcditsDymk-T0kh3Rx7T6mCnLhAt2LSs3vp0URRXSyMPBBsM7VmXFhNV4c0nlnRa7HsU7GRcX8QPwwNp7Q0GrZ5w4SCe115NSe-5ByuGcJdRnazJccssY1oQZX-q2KkFTyybE_kxugGPFjynFNtKYI9KJbCkPK34YY4b87_QD_3-8jKPLgDo1yaEyZe9knvJNHckxjL04pzNc_mIvbWPOYJnbJpZXAC3CNeLMR-FgwY97EdtgRMTHfwkqFBHway8yy4Cu97QSyi-6dT0tyAcOv6BtgYG0WzfmMwbqdYfOOCuXT41MHrUYmvm9W4HTcyWkXUgRycDfk.GOE_EEnP_3NXiiTnwd2BQg
   tls: true
   sni: am3.sec-tunnel.com
   skip-cert-verify: false
 - name: Proton-美国1
   type: wireguard
-  server: 37.19.200.17
+  server: 37.19.199.155
   port: 51820
   ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
-  public-key: xMBFL2Ejufuk926qSqBqPCIi6a6BRs33QmX7jWcsBDg=
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
+  public-key: 99BSAky9FXDyu4+7i8N1vJG9/HfC5yFsTkf0psugGnA=
   udp: true
   dns:
   - 1.1.1.1
 - name: Proton-美国2
   type: wireguard
-  server: 149.40.62.21
+  server: 89.187.180.1
   port: 51820
   ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
-  public-key: cj0n9Y6KUdtXobHrhebwp/87bFUW0OnjjF+1lg8peCQ=
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
+  public-key: o3BjGF2/GcEQiWoP89XgDfXFVlFFm7ipBFVQaOCR00k=
   udp: true
   dns:
   - 1.1.1.1
 - name: Proton-荷兰1
   type: wireguard
-  server: 185.132.132.113
+  server: 185.180.222.89
   port: 51820
   ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
-  public-key: GTGfDypXB5xmw60wpi8N/2B/lrrToPT68zCjCE9RJzQ=
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
+  public-key: qcb7KUuClTqMcsDxhDY3N5OnoW1twENuSw39kU8XiTU=
   udp: true
   dns:
   - 1.1.1.1
 - name: Proton-荷兰2
   type: wireguard
-  server: 185.177.125.196
+  server: 185.107.94.181
   port: 51820
   ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
-  public-key: 3U38ZXtMhIdnUe4kQKu196/7Nu8Uq1v1qMtNpifzf1c=
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
+  public-key: 6DXccPJXXsMc4Wxww4Udyvk95iBPL/Ie0E9rEX+YlAc=
   udp: true
   dns:
   - 1.1.1.1
 - name: Proton-日本1
   type: wireguard
+  server: 138.199.21.193
+  port: 51820
+  ip: 10.2.0.2
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
+  public-key: ZQ/KwfKaBtEpTZLp5q/7jYLJBOo9aO26oR4z0qaPKW8=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-日本2
+  type: wireguard
   server: 103.125.235.18
   port: 51820
   ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
   public-key: agoivyLoPqor8MxA/s6UWJSMcA2pMl+ajO3vy/q3oWQ=
   udp: true
   dns:
@@ -347,28 +376,18 @@ proxies:
   server: 149.88.23.102
   port: 51820
   ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
   public-key: /Whr1uQWZvUgsxYBDxqF1HzrgTL/bsaEXUWFoxshUAQ=
   udp: true
   dns:
   - 1.1.1.1
 - name: Proton-新加坡2
   type: wireguard
-  server: 103.216.221.74
+  server: 149.50.211.144
   port: 51820
   ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
-  public-key: oHtqLdfSVKv5Lu93F6mI/9FLgh3+HXkRbDlycuv6Z3I=
-  udp: true
-  dns:
-  - 1.1.1.1
-- name: Proton-日本2
-  type: wireguard
-  server: 45.14.71.5
-  port: 51820
-  ip: 10.2.0.2
-  private-key: kKnYiA00HdeUc0xfu2u5/vHjNxOH/hZ08m4wwyFxjnY=
-  public-key: E5wPCWdLcrvCn8DI8/vetPVrOyIKFMpdgdhrVsTUdBU=
+  private-key: wNrAgI+Gfzg1jO1DWubVYI9+8vKRW+pY0fjchTW0BVQ=
+  public-key: UvZNvKtOQ3AF6Ly8Vzb+aOMsOETeGvOGKMvMYK9AHX4=
   udp: true
   dns:
   - 1.1.1.1
@@ -415,9 +434,144 @@ proxy-groups:
   - Proton-荷兰1
   - Proton-荷兰2
   - Proton-日本1
+  - Proton-日本2
   - Proton-新加坡1
   - Proton-新加坡2
+- name: 🤖 AI服务
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - Windscribe-美国西1
+  - Windscribe-美国西2
+  - Windscribe-美国西3
+  - Windscribe-加拿大1
+  - Windscribe-加拿大2
+  - Windscribe-加拿大3
+  - Windscribe-加拿大4
+  - Windscribe-加拿大5
+  - Windscribe-德国1
+  - Windscribe-德国2
+  - Windscribe-德国3
+  - Windscribe-德国4
+  - Windscribe-德国5
+  - Windscribe-英国1
+  - Windscribe-英国2
+  - Windscribe-英国3
+  - Windscribe-英国4
+  - Windscribe-英国5
+  - Windscribe-英国6
+  - Windscribe-英国7
+  - Windscribe-香港1
+  - Windscribe-香港2
+  - Opera-亚洲1
+  - Opera-亚洲2
+  - Opera-欧洲1
+  - Opera-欧洲2
+  - Opera-欧洲3
+  - Opera-欧洲4
+  - Opera-美洲1
+  - Opera-美洲2
+  - Opera-美洲3
+  - Opera-美洲4
+  - Proton-美国1
+  - Proton-美国2
+  - Proton-荷兰1
+  - Proton-荷兰2
+  - Proton-日本1
   - Proton-日本2
+  - Proton-新加坡1
+  - Proton-新加坡2
+- name: 📹 国际媒体
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - Windscribe-美国西1
+  - Windscribe-美国西2
+  - Windscribe-美国西3
+  - Windscribe-加拿大1
+  - Windscribe-加拿大2
+  - Windscribe-加拿大3
+  - Windscribe-加拿大4
+  - Windscribe-加拿大5
+  - Windscribe-德国1
+  - Windscribe-德国2
+  - Windscribe-德国3
+  - Windscribe-德国4
+  - Windscribe-德国5
+  - Windscribe-英国1
+  - Windscribe-英国2
+  - Windscribe-英国3
+  - Windscribe-英国4
+  - Windscribe-英国5
+  - Windscribe-英国6
+  - Windscribe-英国7
+  - Windscribe-香港1
+  - Windscribe-香港2
+  - Opera-亚洲1
+  - Opera-亚洲2
+  - Opera-欧洲1
+  - Opera-欧洲2
+  - Opera-欧洲3
+  - Opera-欧洲4
+  - Opera-美洲1
+  - Opera-美洲2
+  - Opera-美洲3
+  - Opera-美洲4
+  - Proton-美国1
+  - Proton-美国2
+  - Proton-荷兰1
+  - Proton-荷兰2
+  - Proton-日本1
+  - Proton-日本2
+  - Proton-新加坡1
+  - Proton-新加坡2
+- name: 📲 电报信息
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - Windscribe-美国西1
+  - Windscribe-美国西2
+  - Windscribe-美国西3
+  - Windscribe-加拿大1
+  - Windscribe-加拿大2
+  - Windscribe-加拿大3
+  - Windscribe-加拿大4
+  - Windscribe-加拿大5
+  - Windscribe-德国1
+  - Windscribe-德国2
+  - Windscribe-德国3
+  - Windscribe-德国4
+  - Windscribe-德国5
+  - Windscribe-英国1
+  - Windscribe-英国2
+  - Windscribe-英国3
+  - Windscribe-英国4
+  - Windscribe-英国5
+  - Windscribe-英国6
+  - Windscribe-英国7
+  - Windscribe-香港1
+  - Windscribe-香港2
+  - Opera-亚洲1
+  - Opera-亚洲2
+  - Opera-欧洲1
+  - Opera-欧洲2
+  - Opera-欧洲3
+  - Opera-欧洲4
+  - Opera-美洲1
+  - Opera-美洲2
+  - Opera-美洲3
+  - Opera-美洲4
+  - Proton-美国1
+  - Proton-美国2
+  - Proton-荷兰1
+  - Proton-荷兰2
+  - Proton-日本1
+  - Proton-日本2
+  - Proton-新加坡1
+  - Proton-新加坡2
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -461,15 +615,80 @@ proxy-groups:
   - Proton-荷兰1
   - Proton-荷兰2
   - Proton-日本1
+  - Proton-日本2
   - Proton-新加坡1
   - Proton-新加坡2
-  - Proton-日本2
 - name: 🔄 故障转移
   type: fallback
   url: http://www.gstatic.com/generate_204
   interval: 180
   proxies: *id001
+- name: 🎯 全球直连
+  type: select
+  proxies:
+  - DIRECT
+- name: 🛑 全球拦截
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+rule-providers:
+  LocalAreaNetwork:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list
+    path: ./ruleset/LocalAreaNetwork.list
+  BanAD:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.list
+    path: ./ruleset/BanAD.list
+  OpenAi:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/OpenAi.list
+    path: ./ruleset/OpenAi.list
+  Telegram:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list
+    path: ./ruleset/Telegram.list
+  YouTube:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/YouTube.list
+    path: ./ruleset/YouTube.list
+  ChinaDomain:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list
+    path: ./ruleset/ChinaDomain.list
+  ChinaCompanyIp:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list
+    path: ./ruleset/ChinaCompanyIp.list
 rules:
-- GEOIP,LAN,DIRECT,no-resolve
-- GEOIP,CN,DIRECT
+- RULE-SET,LocalAreaNetwork,🎯 全球直连
+- RULE-SET,BanAD,🛑 全球拦截
+- RULE-SET,OpenAi,🤖 AI服务
+- RULE-SET,YouTube,📹 国际媒体
+- RULE-SET,Telegram,📲 电报信息
+- RULE-SET,ChinaDomain,🎯 全球直连
+- RULE-SET,ChinaCompanyIp,🎯 全球直连
+- GEOIP,CN,🎯 全球直连
 - MATCH,🚀 节点选择
