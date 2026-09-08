@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-直连节点提取器（全五大服务商集合版）
-包含: TunnelBear / Urban VPN / Windscribe / Opera / Proton
+直连节点提取器（纯净稳定版）
+仅提取高可用大厂落地: Windscribe (HTTPS) / Opera (HTTPS) / Proton (WireGuard)
+配套 ACL4SSR 精细化国内分流、广告拦截、AI流媒体专用规则
 """
 import os
 import sys
@@ -19,117 +20,10 @@ import asyncio
 import yaml
 
 # ==========================================
-# 1. Urban VPN 节点提取 (使用扩展真实生效端点)
-# ==========================================
-def get_urban_nodes():
-    print("[1/5] 正在获取 Urban VPN 节点...")
-    nodes = []
-    # 挑选低延迟和重点地区
-    TARGET_MAP = {"US": "美国", "JP": "日本", "HK": "香港", "SG": "新加坡", "GB": "英国", "KR": "韩国", "DE": "德国"}
-    
-    # Urban VPN 官方扩展真正拉取节点配置的 API
-    url = "https://api.urban-vpn.com/v1/servers"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-        "X-Client-Version": "Chrome-3.1.2"
-    }
-    
-    try:
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=15) as r:
-            servers = json.loads(r.read().decode())
-            cc_count = {}
-            for s in servers:
-                cc = s.get("country_code", "")
-                if cc in TARGET_MAP:
-                    c_name = TARGET_MAP[cc]
-                    # 避免同地区节点过多，每个国家抓取前 2 台
-                    if cc_count.get(c_name, 0) < 2:
-                        ip = s.get("ip") or s.get("host")
-                        port = s.get("port", 443)
-                        if ip:
-                            cc_count[c_name] = cc_count.get(c_name, 0) + 1
-                            nodes.append({
-                                "name": f"Urban-{c_name}{cc_count[c_name]}",
-                                "type": "http",
-                                "server": ip,
-                                "port": int(port),
-                                "username": "urban",
-                                "password": "urban",
-                                "tls": True,
-                                "skip-cert-verify": True
-                            })
-    except Exception as e:
-        print(f"  [!] Urban VPN 提取异常: {e}")
-        
-    print(f"  -> Urban VPN 提取到 {len(nodes)} 个节点")
-    return nodes
-
-# ==========================================
-# 2. TunnelBear 节点提取 (利用官方免验证开户接口)
-# ==========================================
-def get_tunnelbear_nodes():
-    print("[2/5] 正在获取 TunnelBear 节点...")
-    nodes = []
-    # 随机生成凭证直接匿名开户
-    rand_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
-    email = f"tb_{rand_suffix}@gmail.com"
-    password = f"TbPass_{rand_suffix}!99"
-
-    # 真实的 Chrome 扩展鉴权接口
-    url = "https://api.tunnelbear.com/core/web/api/login"
-    data = urllib.parse.urlencode({
-        "username": email,
-        "password": password,
-        "action": "register"
-    }).encode()
-    
-    # 必须携带特定扩展 ID，否则会被阻断
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "X-Requested-With": "XMLHttpRequest",
-        "Origin": "chrome-extension://omidakfkgchncldgfdjfladcemakghjk",
-        "Accept": "application/json"
-    }
-
-    try:
-        req = urllib.request.Request(url, data=data, headers=headers)
-        with urllib.request.urlopen(req, timeout=15) as r:
-            res = json.loads(r.read().decode())
-            token = res.get("details", {}).get("proxyAuthToken")
-            
-            if token:
-                # 官方各地区代理集群域名
-                POPULAR_SERVERS = {
-                    "日本": "jp.lazerbear.net",
-                    "新加坡": "sg.lazerbear.net",
-                    "美国": "us.lazerbear.net",
-                    "英国": "uk.lazerbear.net",
-                    "德国": "de.lazerbear.net"
-                }
-                for c_name, host in POPULAR_SERVERS.items():
-                    nodes.append({
-                        "name": f"TunnelBear-{c_name}",
-                        "type": "http",
-                        "server": host,
-                        "port": 443,
-                        "username": "user",
-                        "password": token,
-                        "tls": True,
-                        "skip-cert-verify": False
-                    })
-    except Exception as e:
-        print(f"  [!] TunnelBear 提取异常: {e}")
-
-    print(f"  -> TunnelBear 提取到 {len(nodes)} 个节点")
-    return nodes
-
-# ==========================================
-# 3. Windscribe 节点提取
+# 1. Windscribe 节点提取 (免验证开户 + 序号去重)
 # ==========================================
 def get_windscribe_nodes():
-    print("[3/5] 正在获取 Windscribe 节点...")
+    print("[1/3] 正在获取 Windscribe 节点...")
     nodes = []
     SECRET = "952b4412f002315aa50751032fcaab03"
     t = int(time.time())
@@ -145,6 +39,7 @@ def get_windscribe_nodes():
     }
     
     try:
+        # 1. 自动开户
         reg_data = urllib.parse.urlencode({
             "client_auth_hash": client_hash, "time": str(t), "session_type_id": "2",
             "username": rand_user, "password": rand_pass
@@ -158,6 +53,7 @@ def get_windscribe_nodes():
         if not (session_hash and loc_hash):
             return nodes
 
+        # 2. 获取代理账号密码
         t2 = int(time.time())
         c_hash2 = hashlib.md5((SECRET + str(t2)).encode()).hexdigest()
         q = urllib.parse.urlencode({"client_auth_hash": c_hash2, "session_auth_hash": session_hash, "time": str(t2)})
@@ -167,6 +63,7 @@ def get_windscribe_nodes():
             proxy_user = base64.b64decode(cred_data.get("username", "")).decode()
             proxy_pass = base64.b64decode(cred_data.get("password", "")).decode()
 
+        # 3. 抓取节点并追加序号避免重名
         serv_req = urllib.request.Request(f"https://assets.windscribe.com/serverlist/chrome/0/{loc_hash}", headers=headers)
         with urllib.request.urlopen(serv_req, timeout=15) as r:
             serv_data = json.loads(r.read().decode()).get("data", [])
@@ -194,19 +91,19 @@ def get_windscribe_nodes():
                                 "skip-cert-verify": False
                             })
     except Exception as e:
-        print(f"  [!] Windscribe 异常: {e}")
+        print(f"  [!] Windscribe 提取异常: {e}")
 
     print(f"  -> Windscribe 提取到 {len(nodes)} 个节点")
     return nodes
 
 # ==========================================
-# 4. Opera 节点提取
+# 2. Opera 节点提取 (免账号 HTTPS 代理)
 # ==========================================
 def get_opera_nodes(binary_path="./opera-proxy"):
-    print("[4/5] 正在获取 Opera 节点...")
+    print("[2/3] 正在获取 Opera 节点...")
     nodes = []
     if not os.path.exists(binary_path):
-        print(f"  [!] 未找到 {binary_path}")
+        print(f"  [!] 未找到辅助二进制 {binary_path}，跳过 Opera")
         return nodes
 
     import re
@@ -244,10 +141,10 @@ def get_opera_nodes(binary_path="./opera-proxy"):
     return nodes
 
 # ==========================================
-# 5. Proton 节点提取 (WireGuard)
+# 3. Proton 节点提取 (WireGuard 协议)
 # ==========================================
 async def get_proton_nodes():
-    print("[5/5] 正在获取 Proton WireGuard 节点...")
+    print("[3/3] 正在获取 Proton WireGuard 节点...")
     nodes = []
     user = os.environ.get("PROTON_USER")
     pwd = os.environ.get("PROTON_PASS")
@@ -262,12 +159,14 @@ async def get_proton_nodes():
 
         s = Session(appversion="linux-vpn@4.8.2", user_agent="ProtonVPN/4.8.2 (Linux; Ubuntu/24.04)")
         if not await s.async_authenticate(user, pwd):
+            print("  [!] Proton 账号密码错误或触发登录频控")
             return nodes
 
         sk = ed25519.Ed25519PrivateKey.generate()
         pem = sk.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo).decode()
         raw_sk = sk.private_bytes(serialization.Encoding.Raw, serialization.PrivateFormat.Raw, serialization.NoEncryption())
 
+        # Clamp 算法生成 WireGuard 客户端私钥
         h = bytearray(hashlib.sha512(raw_sk).digest()[:32])
         h[0] &= 248; h[31] &= 127; h[31] |= 64
         wg_sk = base64.b64encode(bytes(h)).decode()
@@ -301,7 +200,7 @@ async def get_proton_nodes():
                         "dns": ["1.1.1.1"]
                     })
     except Exception as e:
-        print(f"  [!] Proton 异常: {e}")
+        print(f"  [!] Proton 提取异常: {e}")
         
     print(f"  -> Proton 提取到 {len(nodes)} 个节点")
     return nodes
@@ -314,8 +213,7 @@ async def main():
     os.makedirs(outdir, exist_ok=True)
 
     all_nodes = []
-    all_nodes.extend(get_urban_nodes())
-    all_nodes.extend(get_tunnelbear_nodes())
+    # 纯净三合一高可用节点池
     all_nodes.extend(get_windscribe_nodes())
     all_nodes.extend(get_opera_nodes())
     all_nodes.extend(await get_proton_nodes())
@@ -449,7 +347,7 @@ async def main():
     with open(yaml_path, "w", encoding="utf-8") as f:
         yaml.dump(config, f, allow_unicode=True, sort_keys=False)
 
-    print(f"\n[OK] 提取完成，共收集 {len(all_nodes)} 个节点，保存至: {yaml_path}")
+    print(f"\n[OK] 提取完成，共收集 {len(all_nodes)} 个节点，已生成纯净直连配置: {yaml_path}")
 
 if __name__ == "__main__":
     asyncio.run(main())
