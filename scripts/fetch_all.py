@@ -208,23 +208,16 @@ def get_psiphon_nodes():
     print("[4/4] 正在获取 Psiphon (赛风) 节点...")
     nodes = []
     
-    # 查找由工作流下载解压的赛风核心程序
-    bin_candidates = ["./psiphon-tunnel-core-x86_64", "./psiphon-tunnel-core"]
-    bin_path = None
-    for b in bin_candidates:
-        if os.path.exists(b):
-            bin_path = b
-            break
-            
-    if not bin_path:
-        print("  [!] 未找到 psiphon-tunnel-core 核心，跳过提取")
+    bin_path = "./psiphon-tunnel-core-x86_64"
+    if not os.path.exists(bin_path):
+        print("  [!] 未找到编译好的 psiphon 核心，跳过提取")
         return nodes
 
     CC_MAP = {"US": "美国", "JP": "日本", "SG": "新加坡", "GB": "英国", "NL": "荷兰", "CA": "加拿大", "DE": "德国"}
     
     try:
-        # 调用官方客户端核心，要求它输出内置的全部服务器列表数据
-        r = subprocess.run([bin_path, "--printServerList"], capture_output=True, text=True, timeout=15)
+        # 调用核心，打印其内置的所有混淆代理入口 IP
+        r = subprocess.run([bin_path, "--printServerList"], capture_output=True, text=True, timeout=20)
         raw_output = r.stdout
         
         cc_count = {}
@@ -237,7 +230,6 @@ def get_psiphon_nodes():
                 ip = item.get("ipAddress")
                 cc = item.get("country")
                 
-                # 提取支持标准 HTTP/HTTPS 端口的机器
                 if ip and cc in CC_MAP:
                     c_name = CC_MAP[cc]
                     if cc_count.get(c_name, 0) < 2:
