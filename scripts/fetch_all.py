@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 直连节点提取器（无 MASQUE、无套娃）
-维护三家最优质大厂落地: Proton (WireGuard) / Windscribe (HTTPS) / Opera (HTTPS)
+包含: Windscribe (HTTPS) / Opera (HTTPS) / Proton (WireGuard)
+配套 ACL4SSR 精细化国内分流、广告拦截、AI流媒体专用规则
 """
 import os
 import sys
@@ -38,7 +39,7 @@ def get_windscribe_nodes():
     }
     
     try:
-        # 1. 开户拿 2GB 临时号
+        # 1. 注册临时号拿 2GB 额度
         reg_data = urllib.parse.urlencode({
             "client_auth_hash": client_hash, "time": str(t), "session_type_id": "2",
             "username": rand_user, "password": rand_pass
@@ -52,7 +53,7 @@ def get_windscribe_nodes():
         if not (session_hash and loc_hash):
             return nodes
 
-        # 2. 获取连接凭据
+        # 2. 获取代理凭据
         t2 = int(time.time())
         c_hash2 = hashlib.md5((SECRET + str(t2)).encode()).hexdigest()
         q = urllib.parse.urlencode({"client_auth_hash": c_hash2, "session_auth_hash": session_hash, "time": str(t2)})
@@ -62,7 +63,7 @@ def get_windscribe_nodes():
             proxy_user = base64.b64decode(cred_data.get("username", "")).decode()
             proxy_pass = base64.b64decode(cred_data.get("password", "")).decode()
 
-        # 3. 获取服务器列表并加序号去重
+        # 3. 获取服务器列表并追加序号去重
         serv_req = urllib.request.Request(f"https://assets.windscribe.com/serverlist/chrome/0/{loc_hash}", headers=headers)
         with urllib.request.urlopen(serv_req, timeout=15) as r:
             serv_data = json.loads(r.read().decode()).get("data", [])
@@ -77,7 +78,6 @@ def get_windscribe_nodes():
                     for host in group.get("hosts", []):
                         hostname = host.get("hostname")
                         if hostname:
-                            # 修复点：添加序号防重复
                             cc_count[c_name] = cc_count.get(c_name, 0) + 1
                             nodes.append({
                                 "name": f"Windscribe-{c_name}{cc_count[c_name]}",
@@ -103,7 +103,7 @@ def get_opera_nodes(binary_path="./opera-proxy"):
     print("[2/3] 正在获取 Opera 节点...")
     nodes = []
     if not os.path.exists(binary_path):
-        print(f"  [!] 未找到 {binary_path}")
+        print(f"  [!] 未找到 {binary_path}，跳过 Opera")
         return nodes
 
     import re
@@ -149,7 +149,7 @@ async def get_proton_nodes():
     user = os.environ.get("PROTON_USER")
     pwd = os.environ.get("PROTON_PASS")
     if not user or not pwd:
-        print("  [!] 缺少 PROTON_USER / PROTON_PASS，跳过 Proton")
+        print("  [!] 缺少 PROTON_USER / PROTON_PASS 环境变量，跳过 Proton")
         return nodes
 
     try:
@@ -204,7 +204,7 @@ async def get_proton_nodes():
     return nodes
 
 # ==========================================
-# 组装完整的 Clash / mihomo 配置
+# 组装完整的精细分流 Clash / mihomo 配置
 # ==========================================
 async def main():
     outdir = sys.argv[1] if len(sys.argv) > 1 else "dist"
@@ -220,18 +220,87 @@ async def main():
 
     names = [n["name"] for n in all_nodes]
     
+    # 定义高级分流规则集（引用 ACL4SSR 经典规则库）
+    RS = "https://raw.githubusercontent.com"
+    rule_providers = {
+        "LocalAreaNetwork": {
+            "type": "http", "behavior": "classical", "format": "text", "interval": 86400,
+            "url": f"{RS}/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list",
+            "path": "./ruleset/LocalAreaNetwork.list"
+        },
+        "BanAD": {
+            "type": "http", "behavior": "classical", "format": "text", "interval": 86400,
+            "url": f"{RS}/ACL4SSR/ACL4SSR/master/Clash/BanAD.list",
+            "path": "./ruleset/BanAD.list"
+        },
+        "OpenAi": {
+            "type": "http", "behavior": "classical", "format": "text", "interval": 86400,
+            "url": f"{RS}/ACL4SSR/ACL4SSR/master/Clash/Ruleset/OpenAi.list",
+            "path": "./ruleset/OpenAi.list"
+        },
+        "Telegram": {
+            "type": "http", "behavior": "classical", "format": "text", "interval": 86400,
+            "url": f"{RS}/ACL4SSR/ACL4SSR/master/Clash/Telegram.list",
+            "path": "./ruleset/Telegram.list"
+        },
+        "YouTube": {
+            "type": "http", "behavior": "classical", "format": "text", "interval": 86400,
+            "url": f"{RS}/ACL4SSR/ACL4SSR/master/Clash/Ruleset/YouTube.list",
+            "path": "./ruleset/YouTube.list"
+        },
+        "ChinaDomain": {
+            "type": "http", "behavior": "classical", "format": "text", "interval": 86400,
+            "url": f"{RS}/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list",
+            "path": "./ruleset/ChinaDomain.list"
+        },
+        "ChinaCompanyIp": {
+            "type": "http", "behavior": "classical", "format": "text", "interval": 86400,
+            "url": f"{RS}/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list",
+            "path": "./ruleset/ChinaCompanyIp.list"
+        }
+    }
+
     config = {
         "mixed-port": 7890,
         "allow-lan": False,
         "mode": "rule",
         "log-level": "info",
         "unified-delay": True,
+        # DNS 优化：国内走阿里DNS直连解析，国外防污染
+        "dns": {
+            "enable": True,
+            "listen": "0.0.0.0:1053",
+            "ipv6": False,
+            "enhanced-mode": "fake-ip",
+            "fake-ip-range": "198.18.0.1/16",
+            "default-nameserver": ["223.5.5.5", "119.29.29.29"],
+            "nameserver": ["https://223.5.5.5/dns-query", "https://1.12.12.12/dns-query"],
+            "nameserver-policy": {
+                "geosite:cn,private": ["https://223.5.5.5/dns-query", "https://1.12.12.12/dns-query"],
+                "geosite:geolocation-!cn": ["https://1.1.1.1/dns-query", "https://8.8.8.8/dns-query"]
+            }
+        },
         "proxies": all_nodes,
         "proxy-groups": [
             {
                 "name": "🚀 节点选择",
                 "type": "select",
                 "proxies": ["♻️ 自动选择", "🔄 故障转移"] + names
+            },
+            {
+                "name": "🤖 AI服务",
+                "type": "select",
+                "proxies": ["🚀 节点选择", "♻️ 自动选择"] + names
+            },
+            {
+                "name": "📹 国际媒体",
+                "type": "select",
+                "proxies": ["🚀 节点选择", "♻️ 自动选择"] + names
+            },
+            {
+                "name": "📲 电报信息",
+                "type": "select",
+                "proxies": ["🚀 节点选择", "♻️ 自动选择"] + names
             },
             {
                 "name": "♻️ 自动选择",
@@ -247,11 +316,33 @@ async def main():
                 "url": "http://www.gstatic.com/generate_204",
                 "interval": 180,
                 "proxies": names
+            },
+            {
+                "name": "🎯 全球直连",
+                "type": "select",
+                "proxies": ["DIRECT"]
+            },
+            {
+                "name": "🛑 全球拦截",
+                "type": "select",
+                "proxies": ["REJECT", "DIRECT"]
             }
         ],
+        "rule-providers": rule_providers,
         "rules": [
-            "GEOIP,LAN,DIRECT,no-resolve",
-            "GEOIP,CN,DIRECT",
+            # 1. 局域网直连
+            "RULE-SET,LocalAreaNetwork,🎯 全球直连",
+            # 2. 广告拦截
+            "RULE-SET,BanAD,🛑 全球拦截",
+            # 3. 专有服务规则
+            "RULE-SET,OpenAi,🤖 AI服务",
+            "RULE-SET,YouTube,📹 国际媒体",
+            "RULE-SET,Telegram,📲 电报信息",
+            # 4. 国内域名及公司 IP 直连（核心保活与省流）
+            "RULE-SET,ChinaDomain,🎯 全球直连",
+            "RULE-SET,ChinaCompanyIp,🎯 全球直连",
+            "GEOIP,CN,🎯 全球直连",
+            # 5. 漏网之鱼走节点
             "MATCH,🚀 节点选择"
         ]
     }
@@ -260,7 +351,7 @@ async def main():
     with open(yaml_path, "w", encoding="utf-8") as f:
         yaml.dump(config, f, allow_unicode=True, sort_keys=False)
 
-    print(f"\n[OK] 提取完成，共收集 {len(all_nodes)} 个节点，保存至: {yaml_path}")
+    print(f"\n[OK] 提取完成，共收集 {len(all_nodes)} 个节点，已生成精细分流配置: {yaml_path}")
 
 if __name__ == "__main__":
     asyncio.run(main())
