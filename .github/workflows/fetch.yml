@@ -3,7 +3,7 @@ name: 提取纯直连节点池
 on:
   workflow_dispatch:
   schedule:
-    # 每天 UTC 03:00 (北京时间 11:00) 自动运行一次，刷新临时账号与证书
+    # 每天 UTC 03:00 自动跑一次，解决 TunnelBear 换号、Proton 凭据续期
     - cron: '0 3 * * *'
 
 permissions:
@@ -16,36 +16,18 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
-      - name: 安装 Python 与 Go 环境
+      - name: 安装 Python 环境
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 配置 Go 环境 (用于编译 Psiphon)
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-
-      - name: 安装依赖与构建辅助工具
+      - name: 安装依赖
         run: |
-          set -euo pipefail
-          
-          # 1. 安装 Python 依赖
           pip install pyyaml cryptography "git+https://github.com/ProtonVPN/python-proton-core.git"
-
-          # 2. 下载 Opera 代理提取工具
+          # 下载用于获取 Opera 节点的官方辅助二进制
           VER=$(curl -sL https://api.github.com/repos/snawoot-proxies-forks/opera-proxy/releases/latest | jq -r '.tag_name')
           curl -sL -o opera-proxy "https://github.com/snawoot-proxies-forks/opera-proxy/releases/download/${VER}/opera-proxy.linux-amd64"
           chmod +x opera-proxy
-
-          # 3. 秒级编译 Psiphon 官方命令行核心 (耗时约 20 秒)
-          echo "正在从源码构建 Psiphon Core..."
-          git clone --depth=1 https://github.com/Psiphon-Labs/psiphon-tunnel-core.git /tmp/psiphon
-          cd /tmp/psiphon/ConsoleClient
-          go build -ldflags="-s -w" -o "$GITHUB_WORKSPACE/psiphon-tunnel-core-x86_64" .
-          cd "$GITHUB_WORKSPACE"
-          chmod +x psiphon-tunnel-core-x86_64
-          echo "Psiphon 官方核心编译完成！"
 
       - name: 运行节点聚合脚本
         env:
