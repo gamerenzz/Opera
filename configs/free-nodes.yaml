@@ -1,0 +1,222 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+unified-delay: true
+proxies:
+- name: Opera-亚洲1
+  type: http
+  server: 77.111.245.10
+  port: 443
+  username: 0D5BC30130A54AB21F8ADBEE42370582E26A72D5
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJpR3BYX2lJdFFQSVFyUTh6QVNuRl82S0ZLTDYteHNSVUpDUDB3THMyUThvIiwieSI6IndSR2poLXdMZ2dyRnRZUE9tZFhmRzhQVzQzRXNnTmNQd09PSmhlek5RcjgifX0.ZlkFX6Pp2Xt9Sd3Z8BKovi47J5z-hYBMsq6PyPUgXU1ovSu4PfAxOQ.WLSgMcpPn5HMy19T.Zo0CzBjfxjh5EdluqUo2b2D5fDC5zlFIcD8H6Px_KYVzoSjApYxREl0TFSQC7-Jq8mr7sp5H8G0Vj85dd_ifn6EJm30P-H0qGwcu9mmjxK7C0-XB72J1oI5J92gfNYzSaWEFqGFXhQgvpu7PBsgUrElE-pYveJaT8750wgXnIJ8GXQ6iv6qFki8uulvo6FrZ-hRZkwt4yvX44hbX7g_EwE7LYzPucZEgnimWdBOMItWUe_RJobnzty6nAZLa29_of44GIlCbWv9q5Q_yKw5ldcIXasalrwVcq8aABag_BQWh5iSSNhqkQgHWFm34SHZ3-HVO6yUprhZOH-yz6EyfRwmVKuowl9taCM29HD0bBUcY07xRbA5VN4Bcoc4H21LNcr-ZLf-UqGO7Gq5cKBxd_QItlnbxD3gVq2y-eHKOJFmkajJzNklusveqwA5AVF7oKjMHuzvk9S0.ri9K7Cex6NeBXssvG30IUw
+  tls: true
+  sni: as0.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-欧洲1
+  type: http
+  server: 77.111.247.37
+  port: 443
+  username: CA72EDC59431E68339BD9927DAEBF32484FDC207
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ3cWVWQ0R6ZmZCR1U3QXR1cjZHMnZ6VDk1bWUyX3JscjRlTmZ3dk0yZF9zIiwieSI6Im11THo2dmprVkJNa1J2T0lVT0Jma1hzdzdWSF9sN1lSdHFMQXc4UkZwYUUifX0.MxmyZ2mUQY_UlrfiQKu5N1tSFejYCxfZHB88iTUJcF6AK3ocBE3avA.NOjMEBnGnHEsgJI9.Fg6-WwNI_ZY14TOxqE9GasvreIwVHmjvOCX-gHKoTZHtffLeIdPaVDdAbirQgYynqJqwkyeMO1YzxjHv_Lq6xGpEjvRq__hHt5rKooqZaxVj6HgdOqBFClI3cxApGgeuTBXp3mkqjNjrOIIXh3yTAPvsCm2wj8S2pEcuKsK9Nebo3MNTYyuE1aYQuwpC0Wj86ZZTZr6Ew15sgLGWBOnPjpU3X5o8Mi7ufbrqLQwqGZyY30fLQx1W8vfjuR5Q6S9UzjFhTNflr1Pz4DrsnllBEcpfmitjjxZuBJx9320pjshghmE3y32LC3sHEjJbJx9NSh7gRNFpuWwtNJ6a5ssXm7uJ7MuEtmC9IBTg46939zdvoi_ptlPBYQVhHUEUOPzT2P6QurT8g9I7M4Iw49gHMOXfq7R5ick-V0WN8gTaTXnlFEioMk4lpj0wtin7qxpWq6qbJBxd25k.idkOWCFDCJTIGOZjGVcTEw
+  tls: true
+  sni: eu0.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-欧洲2
+  type: http
+  server: 77.111.247.80
+  port: 443
+  username: CA72EDC59431E68339BD9927DAEBF32484FDC207
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ3cWVWQ0R6ZmZCR1U3QXR1cjZHMnZ6VDk1bWUyX3JscjRlTmZ3dk0yZF9zIiwieSI6Im11THo2dmprVkJNa1J2T0lVT0Jma1hzdzdWSF9sN1lSdHFMQXc4UkZwYUUifX0.MxmyZ2mUQY_UlrfiQKu5N1tSFejYCxfZHB88iTUJcF6AK3ocBE3avA.NOjMEBnGnHEsgJI9.Fg6-WwNI_ZY14TOxqE9GasvreIwVHmjvOCX-gHKoTZHtffLeIdPaVDdAbirQgYynqJqwkyeMO1YzxjHv_Lq6xGpEjvRq__hHt5rKooqZaxVj6HgdOqBFClI3cxApGgeuTBXp3mkqjNjrOIIXh3yTAPvsCm2wj8S2pEcuKsK9Nebo3MNTYyuE1aYQuwpC0Wj86ZZTZr6Ew15sgLGWBOnPjpU3X5o8Mi7ufbrqLQwqGZyY30fLQx1W8vfjuR5Q6S9UzjFhTNflr1Pz4DrsnllBEcpfmitjjxZuBJx9320pjshghmE3y32LC3sHEjJbJx9NSh7gRNFpuWwtNJ6a5ssXm7uJ7MuEtmC9IBTg46939zdvoi_ptlPBYQVhHUEUOPzT2P6QurT8g9I7M4Iw49gHMOXfq7R5ick-V0WN8gTaTXnlFEioMk4lpj0wtin7qxpWq6qbJBxd25k.idkOWCFDCJTIGOZjGVcTEw
+  tls: true
+  sni: eu1.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-欧洲3
+  type: http
+  server: 77.111.247.79
+  port: 443
+  username: CA72EDC59431E68339BD9927DAEBF32484FDC207
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ3cWVWQ0R6ZmZCR1U3QXR1cjZHMnZ6VDk1bWUyX3JscjRlTmZ3dk0yZF9zIiwieSI6Im11THo2dmprVkJNa1J2T0lVT0Jma1hzdzdWSF9sN1lSdHFMQXc4UkZwYUUifX0.MxmyZ2mUQY_UlrfiQKu5N1tSFejYCxfZHB88iTUJcF6AK3ocBE3avA.NOjMEBnGnHEsgJI9.Fg6-WwNI_ZY14TOxqE9GasvreIwVHmjvOCX-gHKoTZHtffLeIdPaVDdAbirQgYynqJqwkyeMO1YzxjHv_Lq6xGpEjvRq__hHt5rKooqZaxVj6HgdOqBFClI3cxApGgeuTBXp3mkqjNjrOIIXh3yTAPvsCm2wj8S2pEcuKsK9Nebo3MNTYyuE1aYQuwpC0Wj86ZZTZr6Ew15sgLGWBOnPjpU3X5o8Mi7ufbrqLQwqGZyY30fLQx1W8vfjuR5Q6S9UzjFhTNflr1Pz4DrsnllBEcpfmitjjxZuBJx9320pjshghmE3y32LC3sHEjJbJx9NSh7gRNFpuWwtNJ6a5ssXm7uJ7MuEtmC9IBTg46939zdvoi_ptlPBYQVhHUEUOPzT2P6QurT8g9I7M4Iw49gHMOXfq7R5ick-V0WN8gTaTXnlFEioMk4lpj0wtin7qxpWq6qbJBxd25k.idkOWCFDCJTIGOZjGVcTEw
+  tls: true
+  sni: eu2.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-欧洲4
+  type: http
+  server: 77.111.247.78
+  port: 443
+  username: CA72EDC59431E68339BD9927DAEBF32484FDC207
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJ3cWVWQ0R6ZmZCR1U3QXR1cjZHMnZ6VDk1bWUyX3JscjRlTmZ3dk0yZF9zIiwieSI6Im11THo2dmprVkJNa1J2T0lVT0Jma1hzdzdWSF9sN1lSdHFMQXc4UkZwYUUifX0.MxmyZ2mUQY_UlrfiQKu5N1tSFejYCxfZHB88iTUJcF6AK3ocBE3avA.NOjMEBnGnHEsgJI9.Fg6-WwNI_ZY14TOxqE9GasvreIwVHmjvOCX-gHKoTZHtffLeIdPaVDdAbirQgYynqJqwkyeMO1YzxjHv_Lq6xGpEjvRq__hHt5rKooqZaxVj6HgdOqBFClI3cxApGgeuTBXp3mkqjNjrOIIXh3yTAPvsCm2wj8S2pEcuKsK9Nebo3MNTYyuE1aYQuwpC0Wj86ZZTZr6Ew15sgLGWBOnPjpU3X5o8Mi7ufbrqLQwqGZyY30fLQx1W8vfjuR5Q6S9UzjFhTNflr1Pz4DrsnllBEcpfmitjjxZuBJx9320pjshghmE3y32LC3sHEjJbJx9NSh7gRNFpuWwtNJ6a5ssXm7uJ7MuEtmC9IBTg46939zdvoi_ptlPBYQVhHUEUOPzT2P6QurT8g9I7M4Iw49gHMOXfq7R5ick-V0WN8gTaTXnlFEioMk4lpj0wtin7qxpWq6qbJBxd25k.idkOWCFDCJTIGOZjGVcTEw
+  tls: true
+  sni: eu3.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-美洲1
+  type: http
+  server: 77.111.246.56
+  port: 443
+  username: A3530D3D69AB92E081158A5641C6037BEC1FA08C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJfTzZyUGtfQkstc19lZENEbVRtcmdDME9kVE9zT0k1WG5MSE45UlBEUExFIiwieSI6Ik93NU1IdExFY29HX2k2T1drcEJVTllfRVZDYVRScDdjVTVzb05MMlFhTEEifX0.R9eu6voLJiH8G_57D4cA3k4flTJXTHrxYRzLY5R5lS_kFJjiFOws1Q.-e6S_j0FctGuqghT.sntVBLc1_FUoWhaMVAAgF3x2nMLO35zo8V2-CFsJ7_ss5paxHA3FtWlWG_hLoe4Xj7kQ8J9PA4Rkb6mn9vulP2MlkJVZ8VNcG1ueUVDtJtQ3BekVTMxLZDbwJKh8X7yij8T0vpXOuXK_1Mc6dX9iE-8neo3NfkSaC2Mq-f0DQntIwgjeBc-B1A57I3LXtTMjWYR3eap_MeZyclvr9FVR0k3s4GWlm6ls2NKPuJfTrqdhtRXIczmWKZHStVOtWghqXNadPctB6jFkVjztyCCgvtArGqo_xFJZfQKuVNWlzTxa6tks_A0GY-OQw1R-VxeVmT8pV9Hl_3Ny4e1jzdmOFb6UUa9L9lN-cHe8ST8hdUyRkNJjADLO4Mf0ch82tFLPKgvopzJHgGIFEwEdtGCHYw57CDL44ZCzu0EHjB1q9D_Kv61d2sS37b2ryWnOl5B3K3eIysFtFck.cDyme2TjXIWWa0awLKQ4_g
+  tls: true
+  sni: am0.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-美洲2
+  type: http
+  server: 77.111.246.44
+  port: 443
+  username: A3530D3D69AB92E081158A5641C6037BEC1FA08C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJfTzZyUGtfQkstc19lZENEbVRtcmdDME9kVE9zT0k1WG5MSE45UlBEUExFIiwieSI6Ik93NU1IdExFY29HX2k2T1drcEJVTllfRVZDYVRScDdjVTVzb05MMlFhTEEifX0.R9eu6voLJiH8G_57D4cA3k4flTJXTHrxYRzLY5R5lS_kFJjiFOws1Q.-e6S_j0FctGuqghT.sntVBLc1_FUoWhaMVAAgF3x2nMLO35zo8V2-CFsJ7_ss5paxHA3FtWlWG_hLoe4Xj7kQ8J9PA4Rkb6mn9vulP2MlkJVZ8VNcG1ueUVDtJtQ3BekVTMxLZDbwJKh8X7yij8T0vpXOuXK_1Mc6dX9iE-8neo3NfkSaC2Mq-f0DQntIwgjeBc-B1A57I3LXtTMjWYR3eap_MeZyclvr9FVR0k3s4GWlm6ls2NKPuJfTrqdhtRXIczmWKZHStVOtWghqXNadPctB6jFkVjztyCCgvtArGqo_xFJZfQKuVNWlzTxa6tks_A0GY-OQw1R-VxeVmT8pV9Hl_3Ny4e1jzdmOFb6UUa9L9lN-cHe8ST8hdUyRkNJjADLO4Mf0ch82tFLPKgvopzJHgGIFEwEdtGCHYw57CDL44ZCzu0EHjB1q9D_Kv61d2sS37b2ryWnOl5B3K3eIysFtFck.cDyme2TjXIWWa0awLKQ4_g
+  tls: true
+  sni: am1.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-美洲3
+  type: http
+  server: 77.111.246.63
+  port: 443
+  username: A3530D3D69AB92E081158A5641C6037BEC1FA08C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJfTzZyUGtfQkstc19lZENEbVRtcmdDME9kVE9zT0k1WG5MSE45UlBEUExFIiwieSI6Ik93NU1IdExFY29HX2k2T1drcEJVTllfRVZDYVRScDdjVTVzb05MMlFhTEEifX0.R9eu6voLJiH8G_57D4cA3k4flTJXTHrxYRzLY5R5lS_kFJjiFOws1Q.-e6S_j0FctGuqghT.sntVBLc1_FUoWhaMVAAgF3x2nMLO35zo8V2-CFsJ7_ss5paxHA3FtWlWG_hLoe4Xj7kQ8J9PA4Rkb6mn9vulP2MlkJVZ8VNcG1ueUVDtJtQ3BekVTMxLZDbwJKh8X7yij8T0vpXOuXK_1Mc6dX9iE-8neo3NfkSaC2Mq-f0DQntIwgjeBc-B1A57I3LXtTMjWYR3eap_MeZyclvr9FVR0k3s4GWlm6ls2NKPuJfTrqdhtRXIczmWKZHStVOtWghqXNadPctB6jFkVjztyCCgvtArGqo_xFJZfQKuVNWlzTxa6tks_A0GY-OQw1R-VxeVmT8pV9Hl_3Ny4e1jzdmOFb6UUa9L9lN-cHe8ST8hdUyRkNJjADLO4Mf0ch82tFLPKgvopzJHgGIFEwEdtGCHYw57CDL44ZCzu0EHjB1q9D_Kv61d2sS37b2ryWnOl5B3K3eIysFtFck.cDyme2TjXIWWa0awLKQ4_g
+  tls: true
+  sni: am2.sec-tunnel.com
+  skip-cert-verify: false
+- name: Opera-美洲4
+  type: http
+  server: 77.111.246.60
+  port: 443
+  username: A3530D3D69AB92E081158A5641C6037BEC1FA08C
+  password: eyJhbGciOiJFQ0RILUVTK0EyNTZLVyIsImN0eSI6IkpXVCIsImVuYyI6IkEyNTZHQ00iLCJlcGsiOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJfTzZyUGtfQkstc19lZENEbVRtcmdDME9kVE9zT0k1WG5MSE45UlBEUExFIiwieSI6Ik93NU1IdExFY29HX2k2T1drcEJVTllfRVZDYVRScDdjVTVzb05MMlFhTEEifX0.R9eu6voLJiH8G_57D4cA3k4flTJXTHrxYRzLY5R5lS_kFJjiFOws1Q.-e6S_j0FctGuqghT.sntVBLc1_FUoWhaMVAAgF3x2nMLO35zo8V2-CFsJ7_ss5paxHA3FtWlWG_hLoe4Xj7kQ8J9PA4Rkb6mn9vulP2MlkJVZ8VNcG1ueUVDtJtQ3BekVTMxLZDbwJKh8X7yij8T0vpXOuXK_1Mc6dX9iE-8neo3NfkSaC2Mq-f0DQntIwgjeBc-B1A57I3LXtTMjWYR3eap_MeZyclvr9FVR0k3s4GWlm6ls2NKPuJfTrqdhtRXIczmWKZHStVOtWghqXNadPctB6jFkVjztyCCgvtArGqo_xFJZfQKuVNWlzTxa6tks_A0GY-OQw1R-VxeVmT8pV9Hl_3Ny4e1jzdmOFb6UUa9L9lN-cHe8ST8hdUyRkNJjADLO4Mf0ch82tFLPKgvopzJHgGIFEwEdtGCHYw57CDL44ZCzu0EHjB1q9D_Kv61d2sS37b2ryWnOl5B3K3eIysFtFck.cDyme2TjXIWWa0awLKQ4_g
+  tls: true
+  sni: am3.sec-tunnel.com
+  skip-cert-verify: false
+- name: Proton-美国1
+  type: wireguard
+  server: 151.243.141.161
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: 2v1DSq+q5x9o7PMVUjJ6hSrBD4lfjevMp45E/1mgF2I=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-美国2
+  type: wireguard
+  server: 37.19.199.155
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: 99BSAky9FXDyu4+7i8N1vJG9/HfC5yFsTkf0psugGnA=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-荷兰1
+  type: wireguard
+  server: 93.190.138.166
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: O7NAlrmJoPD3RFQgzzOf1nsb8CBxGaI6nT7ikNs7Ky8=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-荷兰2
+  type: wireguard
+  server: 138.199.7.159
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: 1s5mwMp3fZKNucEO3GeHRSUrhGLu/BYeC0UdusyxSWU=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-日本1
+  type: wireguard
+  server: 138.199.22.103
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: lFrEUI1vE7eSROPigWxoolA4PFDwc08AYWiTYvLg1hQ=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-日本2
+  type: wireguard
+  server: 45.14.71.5
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: E5wPCWdLcrvCn8DI8/vetPVrOyIKFMpdgdhrVsTUdBU=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-新加坡1
+  type: wireguard
+  server: 103.216.221.74
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: oHtqLdfSVKv5Lu93F6mI/9FLgh3+HXkRbDlycuv6Z3I=
+  udp: true
+  dns:
+  - 1.1.1.1
+- name: Proton-新加坡2
+  type: wireguard
+  server: 149.50.211.144
+  port: 51820
+  ip: 10.2.0.2
+  private-key: UPNTOwywVpFag7gB3JmIpCGN50vrysrIHkujpiIXRWw=
+  public-key: UvZNvKtOQ3AF6Ly8Vzb+aOMsOETeGvOGKMvMYK9AHX4=
+  udp: true
+  dns:
+  - 1.1.1.1
+proxy-groups:
+- name: 🚀 节点选择
+  type: select
+  proxies:
+  - ♻️ 自动选择
+  - 🔄 故障转移
+  - Opera-亚洲1
+  - Opera-欧洲1
+  - Opera-欧洲2
+  - Opera-欧洲3
+  - Opera-欧洲4
+  - Opera-美洲1
+  - Opera-美洲2
+  - Opera-美洲3
+  - Opera-美洲4
+  - Proton-美国1
+  - Proton-美国2
+  - Proton-荷兰1
+  - Proton-荷兰2
+  - Proton-日本1
+  - Proton-日本2
+  - Proton-新加坡1
+  - Proton-新加坡2
+- name: ♻️ 自动选择
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies: &id001
+  - Opera-亚洲1
+  - Opera-欧洲1
+  - Opera-欧洲2
+  - Opera-欧洲3
+  - Opera-欧洲4
+  - Opera-美洲1
+  - Opera-美洲2
+  - Opera-美洲3
+  - Opera-美洲4
+  - Proton-美国1
+  - Proton-美国2
+  - Proton-荷兰1
+  - Proton-荷兰2
+  - Proton-日本1
+  - Proton-日本2
+  - Proton-新加坡1
+  - Proton-新加坡2
+- name: 🔄 故障转移
+  type: fallback
+  url: http://www.gstatic.com/generate_204
+  interval: 180
+  proxies: *id001
+rules:
+- GEOIP,LAN,DIRECT,no-resolve
+- GEOIP,CN,DIRECT
+- MATCH,🚀 节点选择
