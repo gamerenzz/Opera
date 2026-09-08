@@ -1,10 +1,10 @@
-name: 提取纯直连节点池
+name: 提取纯净 Opera 直连节点
 
 on:
   workflow_dispatch:
   schedule:
-    # 每天 UTC 03:00 自动跑一次，解决 TunnelBear 换号、Proton 凭据续期
-    - cron: '0 3 * * *'
+    # Opera 凭证会老化，建议每 4-6 小时跑一次确保凭据常新
+    - cron: '0 */6 * * *'
 
 permissions:
   contents: write
@@ -16,36 +16,24 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
-      - name: 安装 Python 环境
+      - name: 安装 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 安装依赖
+      - name: 安装基础依赖
         run: |
-          pip install pyyaml cryptography "git+https://github.com/ProtonVPN/python-proton-core.git"
-          # 下载用于获取 Opera 节点的官方辅助二进制
+          pip install pyyaml
           VER=$(curl -sL https://api.github.com/repos/snawoot-proxies-forks/opera-proxy/releases/latest | jq -r '.tag_name')
           curl -sL -o opera-proxy "https://github.com/snawoot-proxies-forks/opera-proxy/releases/download/${VER}/opera-proxy.linux-amd64"
           chmod +x opera-proxy
 
-      - name: 运行节点聚合脚本
-        env:
-          PROTON_USER: ${{ secrets.PROTON_USER }}
-          PROTON_PASS: ${{ secrets.PROTON_PASS }}
-        run: |
-          python3 scripts/fetch_all.py configs
+      - name: 生成节点配置
+        run: python3 scripts/fetch_all.py configs
 
       - name: 提交并推送到仓库
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add configs/free-nodes.yaml
-          git diff --staged --quiet || (git commit -m "自动更新：直连节点池 ($(date -u '+%F %T') UTC)" && git push)
-
-      - name: 上传产物
-        uses: actions/upload-artifact@v4
-        with:
-          name: free-nodes
-          path: configs/free-nodes.yaml
-          retention-days: 7
+          git diff --staged --quiet || (git commit -m "自动更新: Opera直连节点池 ($(date -u '+%F %T') UTC)" && git push)
