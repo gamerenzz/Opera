@@ -16,49 +16,36 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
-      - name: 安装 Python 环境
+      - name: 安装 Python 与 Go 环境
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 安装依赖与辅助工具
+      - name: 配置 Go 环境 (用于编译 Psiphon)
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: 安装依赖与构建辅助工具
         run: |
           set -euo pipefail
           
-          # 1. 安装基础 Python 库和 Proton 官方支持库
+          # 1. 安装 Python 依赖
           pip install pyyaml cryptography "git+https://github.com/ProtonVPN/python-proton-core.git"
 
-          # 2. 下载 Opera 官方代理提取辅助工具
+          # 2. 下载 Opera 代理提取工具
           VER=$(curl -sL https://api.github.com/repos/snawoot-proxies-forks/opera-proxy/releases/latest | jq -r '.tag_name')
           curl -sL -o opera-proxy "https://github.com/snawoot-proxies-forks/opera-proxy/releases/download/${VER}/opera-proxy.linux-amd64"
           chmod +x opera-proxy
 
-          # 3. 动态解析并自适应下载 Psiphon 官方 Linux 资产
-          echo "正在查询 Psiphon 最新 Release 资产..."
-          ASSET_URL=$(curl -sL https://api.github.com/repos/Psiphon-Labs/psiphon-tunnel-core/releases/latest \
-            | jq -r '.assets[] | select(.name | test("linux.*(x86_64|amd64)"; "i")) | .browser_download_url' | head -n 1)
-
-          if [ -n "$ASSET_URL" ] && [ "$ASSET_URL" != "null" ]; then
-            echo "下载 Psiphon 资产: $ASSET_URL"
-            curl -sL -o psiphon_asset "$ASSET_URL"
-            
-            # 智能判断文件类型：如果是 zip 则解压，如果是 tar.gz 则解包，否则直接作为二进制文件
-            FILE_TYPE=$(file psiphon_asset)
-            if echo "$FILE_TYPE" | grep -qi "gzip"; then
-              tar -xzf psiphon_asset
-            elif echo "$FILE_TYPE" | grep -qi "zip"; then
-              unzip -q -o psiphon_asset
-            else
-              mv psiphon_asset psiphon-tunnel-core-x86_64
-            fi
-            
-            # 递归查找解压出来的二进制并统一命名
-            find . -maxdepth 2 -type f -name "*psiphon*" -not -name "*.py" -not -name "*.tar.gz" -not -name "*.zip" -exec cp {} ./psiphon-tunnel-core-x86_64 \; || true
-            chmod +x psiphon-tunnel-core-x86_64 || true
-            echo "Psiphon 核心就绪"
-          else
-            echo "未查询到适配的预编译二进制，跳过 Psiphon 核心安装"
-          fi
+          # 3. 秒级编译 Psiphon 官方命令行核心 (耗时约 20 秒)
+          echo "正在从源码构建 Psiphon Core..."
+          git clone --depth=1 https://github.com/Psiphon-Labs/psiphon-tunnel-core.git /tmp/psiphon
+          cd /tmp/psiphon/ConsoleClient
+          go build -ldflags="-s -w" -o "$GITHUB_WORKSPACE/psiphon-tunnel-core-x86_64" .
+          cd "$GITHUB_WORKSPACE"
+          chmod +x psiphon-tunnel-core-x86_64
+          echo "Psiphon 官方核心编译完成！"
 
       - name: 运行节点聚合脚本
         env:
