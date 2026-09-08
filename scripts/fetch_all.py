@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-直连节点提取器（纯净稳定版）
-仅提取高可用大厂落地: Windscribe (HTTPS) / Opera (HTTPS) / Proton (WireGuard)
+直连节点提取器（四合一落地版）
+包含: Windscribe (HTTPS) / Opera (HTTPS) / Proton (WireGuard) / Psiphon (HTTP/CDN)
 配套 ACL4SSR 精细化国内分流、广告拦截、AI流媒体专用规则
 """
 import os
@@ -23,7 +23,7 @@ import yaml
 # 1. Windscribe 节点提取 (免验证开户 + 序号去重)
 # ==========================================
 def get_windscribe_nodes():
-    print("[1/3] 正在获取 Windscribe 节点...")
+    print("[1/4] 正在获取 Windscribe 节点...")
     nodes = []
     SECRET = "952b4412f002315aa50751032fcaab03"
     t = int(time.time())
@@ -39,7 +39,6 @@ def get_windscribe_nodes():
     }
     
     try:
-        # 1. 自动开户
         reg_data = urllib.parse.urlencode({
             "client_auth_hash": client_hash, "time": str(t), "session_type_id": "2",
             "username": rand_user, "password": rand_pass
@@ -53,7 +52,6 @@ def get_windscribe_nodes():
         if not (session_hash and loc_hash):
             return nodes
 
-        # 2. 获取代理账号密码
         t2 = int(time.time())
         c_hash2 = hashlib.md5((SECRET + str(t2)).encode()).hexdigest()
         q = urllib.parse.urlencode({"client_auth_hash": c_hash2, "session_auth_hash": session_hash, "time": str(t2)})
@@ -63,7 +61,6 @@ def get_windscribe_nodes():
             proxy_user = base64.b64decode(cred_data.get("username", "")).decode()
             proxy_pass = base64.b64decode(cred_data.get("password", "")).decode()
 
-        # 3. 抓取节点并追加序号避免重名
         serv_req = urllib.request.Request(f"https://assets.windscribe.com/serverlist/chrome/0/{loc_hash}", headers=headers)
         with urllib.request.urlopen(serv_req, timeout=15) as r:
             serv_data = json.loads(r.read().decode()).get("data", [])
@@ -100,7 +97,7 @@ def get_windscribe_nodes():
 # 2. Opera 节点提取 (免账号 HTTPS 代理)
 # ==========================================
 def get_opera_nodes(binary_path="./opera-proxy"):
-    print("[2/3] 正在获取 Opera 节点...")
+    print("[2/4] 正在获取 Opera 节点...")
     nodes = []
     if not os.path.exists(binary_path):
         print(f"  [!] 未找到辅助二进制 {binary_path}，跳过 Opera")
@@ -144,7 +141,7 @@ def get_opera_nodes(binary_path="./opera-proxy"):
 # 3. Proton 节点提取 (WireGuard 协议)
 # ==========================================
 async def get_proton_nodes():
-    print("[3/3] 正在获取 Proton WireGuard 节点...")
+    print("[3/4] 正在获取 Proton WireGuard 节点...")
     nodes = []
     user = os.environ.get("PROTON_USER")
     pwd = os.environ.get("PROTON_PASS")
@@ -159,14 +156,13 @@ async def get_proton_nodes():
 
         s = Session(appversion="linux-vpn@4.8.2", user_agent="ProtonVPN/4.8.2 (Linux; Ubuntu/24.04)")
         if not await s.async_authenticate(user, pwd):
-            print("  [!] Proton 账号密码错误或触发登录频控")
+            print("  [!] Proton 登录失败")
             return nodes
 
         sk = ed25519.Ed25519PrivateKey.generate()
         pem = sk.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo).decode()
         raw_sk = sk.private_bytes(serialization.Encoding.Raw, serialization.PrivateFormat.Raw, serialization.NoEncryption())
 
-        # Clamp 算法生成 WireGuard 客户端私钥
         h = bytearray(hashlib.sha512(raw_sk).digest()[:32])
         h[0] &= 248; h[31] &= 127; h[31] |= 64
         wg_sk = base64.b64encode(bytes(h)).decode()
@@ -206,6 +202,51 @@ async def get_proton_nodes():
     return nodes
 
 # ==========================================
+# 4. Psiphon 节点提取 (免账号 / 公共服务器池)
+# ==========================================
+def get_psiphon_nodes():
+    print("[4/4] 正在获取 Psiphon (赛风) 节点...")
+    nodes = []
+    # 赛风公开的前端同步与发现源（基于去中心化维护清单）
+    url = "https://raw.githubusercontent.com/Psiphon-Labs/psiphon-tunnel-core/master/ServerList/server_list.embedded"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+    
+    CC_MAP = {"US": "美国", "JP": "日本", "SG": "新加坡", "GB": "英国", "NL": "荷兰", "CA": "加拿大", "DE": "德国"}
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            content = r.read().decode()
+            cc_count = {}
+            for line in content.splitlines():
+                if not line.strip():
+                    continue
+                try:
+                    data = json.loads(line)
+                    # 提取其暴露的 Web / HTTP 代理入口或对外网关
+                    ip = data.get("ipAddress")
+                    cc = data.get("country")
+                    # 支持的端口清单 (取常见 443 / 80 / 53)
+                    protocols = data.get("protocols", [])
+                    if ip and cc in CC_MAP:
+                        c_name = CC_MAP[cc]
+                        if cc_count.get(c_name, 0) < 2:
+                            cc_count[c_name] = cc_count.get(c_name, 0) + 1
+                            nodes.append({
+                                "name": f"Psiphon-{c_name}{cc_count[c_name]}",
+                                "type": "http",
+                                "server": ip,
+                                "port": 443,
+                                "tls": True,
+                                "skip-cert-verify": True
+                            })
+                except Exception:
+                    continue
+    except Exception as e:
+        print(f"  [!] Psiphon 提取异常: {e}")
+
+    print(f"  -> Psiphon 提取到 {len(nodes)} 个节点")
+    return nodes
+
+# ==========================================
 # 组装完整的 Clash / mihomo 配置
 # ==========================================
 async def main():
@@ -213,10 +254,10 @@ async def main():
     os.makedirs(outdir, exist_ok=True)
 
     all_nodes = []
-    # 纯净三合一高可用节点池
     all_nodes.extend(get_windscribe_nodes())
     all_nodes.extend(get_opera_nodes())
     all_nodes.extend(await get_proton_nodes())
+    all_nodes.extend(get_psiphon_nodes())
 
     if not all_nodes:
         sys.exit("错误: 未抓取到任何可用节点！")
@@ -347,7 +388,7 @@ async def main():
     with open(yaml_path, "w", encoding="utf-8") as f:
         yaml.dump(config, f, allow_unicode=True, sort_keys=False)
 
-    print(f"\n[OK] 提取完成，共收集 {len(all_nodes)} 个节点，已生成纯净直连配置: {yaml_path}")
+    print(f"\n[OK] 提取完成，共收集 {len(all_nodes)} 个节点，已生成配置: {yaml_path}")
 
 if __name__ == "__main__":
     asyncio.run(main())
