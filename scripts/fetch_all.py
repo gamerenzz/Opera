@@ -1,112 +1,24 @@
 #!/usr/bin/env python3
 """
-直连节点提取器（纯净稳定版）
-仅提取高可用大厂落地: Windscribe (HTTPS) / Opera (HTTPS) / Proton (WireGuard)
-配套 ACL4SSR 精细化国内分流、广告拦截、AI流媒体专用规则
+Opera 纯直连节点提取器
+免账号、无限流量、自带亚洲/欧洲/美洲落地
+集成 ACL4SSR 国内分流白名单、广告拦截、防污染 DNS
 """
 import os
 import sys
-import json
-import time
-import base64
-import random
-import string
-import hashlib
-import urllib.request
-import urllib.parse
-import urllib.error
 import subprocess
-import asyncio
+import re
 import yaml
 
 # ==========================================
-# 1. Windscribe 节点提取 (免验证开户 + 序号去重)
-# ==========================================
-def get_windscribe_nodes():
-    print("[1/3] 正在获取 Windscribe 节点...")
-    nodes = []
-    SECRET = "952b4412f002315aa50751032fcaab03"
-    t = int(time.time())
-    client_hash = hashlib.md5((SECRET + str(t)).encode()).hexdigest()
-    
-    rand_user = "u" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=9))
-    rand_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=14)) + "!1Aa"
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) Chrome/103.0.0.0",
-        "Origin": "chrome-extension://hnmpcagpplmpfojmgmnngilcnanddlhb",
-        "Accept": "application/json"
-    }
-    
-    try:
-        # 1. 自动开户
-        reg_data = urllib.parse.urlencode({
-            "client_auth_hash": client_hash, "time": str(t), "session_type_id": "2",
-            "username": rand_user, "password": rand_pass
-        }).encode()
-        reg_req = urllib.request.Request("https://api.windscribe.com/Users", data=reg_data, headers=headers)
-        with urllib.request.urlopen(reg_req, timeout=15) as r:
-            user_data = json.loads(r.read().decode()).get("data", {})
-            
-        session_hash = user_data.get("session_auth_hash")
-        loc_hash = user_data.get("loc_hash")
-        if not (session_hash and loc_hash):
-            return nodes
-
-        # 2. 获取代理账号密码
-        t2 = int(time.time())
-        c_hash2 = hashlib.md5((SECRET + str(t2)).encode()).hexdigest()
-        q = urllib.parse.urlencode({"client_auth_hash": c_hash2, "session_auth_hash": session_hash, "time": str(t2)})
-        cred_req = urllib.request.Request(f"https://api.windscribe.com/ServerCredentials?{q}", headers=headers)
-        with urllib.request.urlopen(cred_req, timeout=15) as r:
-            cred_data = json.loads(r.read().decode()).get("data", {})
-            proxy_user = base64.b64decode(cred_data.get("username", "")).decode()
-            proxy_pass = base64.b64decode(cred_data.get("password", "")).decode()
-
-        # 3. 抓取节点并追加序号避免重名
-        serv_req = urllib.request.Request(f"https://assets.windscribe.com/serverlist/chrome/0/{loc_hash}", headers=headers)
-        with urllib.request.urlopen(serv_req, timeout=15) as r:
-            serv_data = json.loads(r.read().decode()).get("data", [])
-            
-        CC_MAP = {"HK": "香港", "US-W": "美国西", "CA": "加拿大", "DE": "德国", "GB": "英国"}
-        cc_count = {}
-        for c in serv_data:
-            short = c.get("short_name")
-            if short in CC_MAP and not c.get("premium_only"):
-                c_name = CC_MAP[short]
-                for group in c.get("groups", []):
-                    for host in group.get("hosts", []):
-                        hostname = host.get("hostname")
-                        if hostname:
-                            cc_count[c_name] = cc_count.get(c_name, 0) + 1
-                            nodes.append({
-                                "name": f"Windscribe-{c_name}{cc_count[c_name]}",
-                                "type": "http",
-                                "server": hostname,
-                                "port": 443,
-                                "username": proxy_user,
-                                "password": proxy_pass,
-                                "tls": True,
-                                "sni": hostname,
-                                "skip-cert-verify": False
-                            })
-    except Exception as e:
-        print(f"  [!] Windscribe 提取异常: {e}")
-
-    print(f"  -> Windscribe 提取到 {len(nodes)} 个节点")
-    return nodes
-
-# ==========================================
-# 2. Opera 节点提取 (免账号 HTTPS 代理)
+# 1. Opera 节点提取 (免账号 HTTPS 代理)
 # ==========================================
 def get_opera_nodes(binary_path="./opera-proxy"):
-    print("[2/3] 正在获取 Opera 节点...")
+    print("[*] 正在获取 Opera 落地节点...")
     nodes = []
     if not os.path.exists(binary_path):
-        print(f"  [!] 未找到辅助二进制 {binary_path}，跳过 Opera")
-        return nodes
+        sys.exit(f"错误: 未找到辅助程序 {binary_path}！")
 
-    import re
     REGIONS = {"AS": "亚洲", "EU": "欧洲", "AM": "美洲"}
     for code, c_name in REGIONS.items():
         try:
@@ -135,94 +47,29 @@ def get_opera_nodes(binary_path="./opera-proxy"):
                         "skip-cert-verify": False
                     })
         except Exception as e:
-            print(f"  [!] Opera {code} 异常: {e}")
+            print(f"  [!] 获取 {code} 区域异常: {e}")
             
-    print(f"  -> Opera 提取到 {len(nodes)} 个节点")
+    print(f"  -> 成功提取到 {len(nodes)} 个 Opera 节点")
     return nodes
 
 # ==========================================
-# 3. Proton 节点提取 (WireGuard 协议)
+# 2. 组装精细分流配置
 # ==========================================
-async def get_proton_nodes():
-    print("[3/3] 正在获取 Proton WireGuard 节点...")
-    nodes = []
-    user = os.environ.get("PROTON_USER")
-    pwd = os.environ.get("PROTON_PASS")
-    if not user or not pwd:
-        print("  [!] 缺少 PROTON_USER / PROTON_PASS，跳过 Proton")
-        return nodes
-
-    try:
-        from proton.session import Session
-        from cryptography.hazmat.primitives.asymmetric import ed25519
-        from cryptography.hazmat.primitives import serialization
-
-        s = Session(appversion="linux-vpn@4.8.2", user_agent="ProtonVPN/4.8.2 (Linux; Ubuntu/24.04)")
-        if not await s.async_authenticate(user, pwd):
-            print("  [!] Proton 账号密码错误或触发登录频控")
-            return nodes
-
-        sk = ed25519.Ed25519PrivateKey.generate()
-        pem = sk.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo).decode()
-        raw_sk = sk.private_bytes(serialization.Encoding.Raw, serialization.PrivateFormat.Raw, serialization.NoEncryption())
-
-        # Clamp 算法生成 WireGuard 客户端私钥
-        h = bytearray(hashlib.sha512(raw_sk).digest()[:32])
-        h[0] &= 248; h[31] &= 127; h[31] |= 64
-        wg_sk = base64.b64encode(bytes(h)).decode()
-
-        await s.async_api_request("/vpn/v1/certificate", jsondata={
-            "ClientPublicKey": pem, "Mode": "session", "Duration": "10080 min", "DeviceName": "actions"
-        })
-
-        lg = await s.async_api_request("/vpn/logicals")
-        free = [x for x in lg["LogicalServers"] if x.get("Tier") == 0]
-
-        WANT_CC = {"JP": "日本", "SG": "新加坡", "US": "美国", "NL": "荷兰"}
-        count = {}
-        for srv in sorted(free, key=lambda x: x.get("Score", 99)):
-            cc = srv["ExitCountry"]
-            if cc in WANT_CC and count.get(cc, 0) < 2:
-                phys = (srv.get("Servers") or [{}])[0]
-                pub = phys.get("X25519PublicKey")
-                ip = phys.get("EntryIP")
-                if pub and ip:
-                    count[cc] = count.get(cc, 0) + 1
-                    nodes.append({
-                        "name": f"Proton-{WANT_CC[cc]}{count[cc]}",
-                        "type": "wireguard",
-                        "server": ip,
-                        "port": 51820,
-                        "ip": "10.2.0.2",
-                        "private-key": wg_sk,
-                        "public-key": pub,
-                        "udp": True,
-                        "dns": ["1.1.1.1"]
-                    })
-    except Exception as e:
-        print(f"  [!] Proton 提取异常: {e}")
-        
-    print(f"  -> Proton 提取到 {len(nodes)} 个节点")
-    return nodes
-
-# ==========================================
-# 组装完整的 Clash / mihomo 配置
-# ==========================================
-async def main():
+def main():
     outdir = sys.argv[1] if len(sys.argv) > 1 else "dist"
     os.makedirs(outdir, exist_ok=True)
 
-    all_nodes = []
-    # 纯净三合一高可用节点池
-    all_nodes.extend(get_windscribe_nodes())
-    all_nodes.extend(get_opera_nodes())
-    all_nodes.extend(await get_proton_nodes())
+    nodes = get_opera_nodes()
+    if not nodes:
+        sys.exit("未获取到任何可用节点，终止操作")
 
-    if not all_nodes:
-        sys.exit("错误: 未抓取到任何可用节点！")
+    names = [n["name"] for n in nodes]
 
-    names = [n["name"] for n in all_nodes]
-    
+    # 分区筛选组
+    asia_names = [n["name"] for n in nodes if "亚洲" in n["name"]]
+    europe_names = [n["name"] for n in nodes if "欧洲" in n["name"]]
+    america_names = [n["name"] for n in nodes if "美洲" in n["name"]]
+
     RS = "https://raw.githubusercontent.com"
     rule_providers = {
         "LocalAreaNetwork": {
@@ -281,17 +128,49 @@ async def main():
                 "geosite:geolocation-!cn": ["https://1.1.1.1/dns-query", "https://8.8.8.8/dns-query"]
             }
         },
-        "proxies": all_nodes,
+        "proxies": nodes,
         "proxy-groups": [
             {
                 "name": "🚀 节点选择",
                 "type": "select",
-                "proxies": ["♻️ 自动选择", "🔄 故障转移"] + names
+                "proxies": ["♻️ 自动选择", "🌏 亚洲节点", "🌍 欧洲节点", "🌎 美洲节点", "🔄 故障转移"] + names
+            },
+            {
+                "name": "♻️ 自动选择",
+                "type": "url-test",
+                "url": "http://www.gstatic.com/generate_204",
+                "interval": 300,
+                "tolerance": 50,
+                "proxies": names
+            },
+            {
+                "name": "🌏 亚洲节点",
+                "type": "url-test",
+                "url": "http://www.gstatic.com/generate_204",
+                "interval": 300,
+                "tolerance": 50,
+                "proxies": asia_names if asia_names else names
+            },
+            {
+                "name": "🌍 欧洲节点",
+                "type": "url-test",
+                "url": "http://www.gstatic.com/generate_204",
+                "interval": 300,
+                "tolerance": 50,
+                "proxies": europe_names if europe_names else names
+            },
+            {
+                "name": "🌎 美洲节点",
+                "type": "url-test",
+                "url": "http://www.gstatic.com/generate_204",
+                "interval": 300,
+                "tolerance": 50,
+                "proxies": america_names if america_names else names
             },
             {
                 "name": "🤖 AI服务",
                 "type": "select",
-                "proxies": ["🚀 节点选择", "♻️ 自动选择"] + names
+                "proxies": ["🚀 节点选择", "🌏 亚洲节点", "🌎 美洲节点"] + names
             },
             {
                 "name": "📹 国际媒体",
@@ -302,14 +181,6 @@ async def main():
                 "name": "📲 电报信息",
                 "type": "select",
                 "proxies": ["🚀 节点选择", "♻️ 自动选择"] + names
-            },
-            {
-                "name": "♻️ 自动选择",
-                "type": "url-test",
-                "url": "http://www.gstatic.com/generate_204",
-                "interval": 300,
-                "tolerance": 50,
-                "proxies": names
             },
             {
                 "name": "🔄 故障转移",
@@ -347,7 +218,7 @@ async def main():
     with open(yaml_path, "w", encoding="utf-8") as f:
         yaml.dump(config, f, allow_unicode=True, sort_keys=False)
 
-    print(f"\n[OK] 提取完成，共收集 {len(all_nodes)} 个节点，已生成纯净直连配置: {yaml_path}")
+    print(f"\n[OK] 纯净版生成完毕，共 {len(nodes)} 个可用 Opera 直连节点: {yaml_path}")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
